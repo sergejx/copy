@@ -25,7 +25,7 @@ class C_photo {
 		$this->album = $galerie;
 		//init from filesystem
 		//preview
-		$this->preview = "$gallery_dir/$galerie/lq/img-" . $this->number . ".jpg";
+		$this->preview = "$gallery_dir/$galerie/mq/img-" . $this->number . ".jpg";
 		$this->previewsize = getimagesize($this->preview);
 		//MQ
 		if (file_exists("$root/$gallery_dir/$galerie/mq/img-" . $this->number . ".jpg")) {

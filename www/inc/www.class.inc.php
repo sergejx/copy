@@ -25,6 +25,8 @@ class C_www {
       echo "<html>\n";
       echo "<head>\n";
 
+        echo "<meta name=\"robots\" content=\"noindex, nofollow\">\n";
+
 			#IE hacks
 			echo "<!-- This makes IE6 suck less (a bit) -->\n";
 			echo "<!--[if lt IE 7]>\n";
@@ -220,7 +222,7 @@ class C_www {
          echo "<div class=\"prevthumb\">";
          echo "<a href=\"$ThisScript?galerie=$gallery&amp;photo=$prev";
          echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\">";
-         if (file_exists("$gallery_dir/$gallery/thumbs/img-$prev.png")) {
+         /*if (file_exists("$gallery_dir/$gallery/thumbs/img-$prev.png")) {
             $Pthumb = "$gallery_dir/$gallery/thumbs/img-$prev.png";
          } else {
             $Pthumb = "$gallery_dir/$gallery/thumbs/img-$prev.jpg";
@@ -229,7 +231,7 @@ class C_www {
          echo "<img alt=\"Previous\" src=\"";
          echo $Pthumb . "\" width=\"" . round($v[0]/$PNthumbScale);
          echo "\" height=\"" . round($v[1]/$PNthumbScale) . "\" />";
-         echo "<br />" . __('Previous');
+         echo "<br />" . __('Previous');*/
          echo "</a></div>\n";
       }
    } else { //next thumbnail
@@ -237,7 +239,7 @@ class C_www {
          echo "<div class=\"nextthumb\">";
          echo "<a href=\"$ThisScript?galerie=$gallery&amp;photo=$next";
          echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\">";
-         if (file_exists("$gallery_dir/$gallery/thumbs/img-$next.png")) {
+         /*if (file_exists("$gallery_dir/$gallery/thumbs/img-$next.png")) {
             $Nthumb = "$gallery_dir/$gallery/thumbs/img-$next.png";
          } else {
             $Nthumb = "$gallery_dir/$gallery/thumbs/img-$next.jpg";
@@ -247,7 +249,7 @@ class C_www {
          echo $Nthumb . "\" width=\"" . round($v[0]/$PNthumbScale);
          echo "\" height=\"" . round($v[1]/$PNthumbScale) . "\" />";
          //echo "<br /><span class=\"accesskey\">N</span>ext";
-         echo "<br />" . __('Next') ;	 
+         echo "<br />" . __('Next') ;	 */
          echo "</a></div>\n";
       }
    }

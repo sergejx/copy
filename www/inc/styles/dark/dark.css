@@ -50,12 +50,18 @@ h1.title {
 div.thumbroll {
    margin: 10px 0px 4px 0px;
    min-height: 29px;
+   text-align: center;
 }
 
 div.thumbroll img {
 	border: 1px solid #6b6c69;
 	-moz-border-radius: 3px; 
 	Filter: Gray; /* IE only */
+}
+
+div.thumbroll a.current img, div.thumbroll a.current:hover img {
+	border: 2px solid #ffb02f;
+	Filter: none;
 }
 
 div.thumbroll a:hover img {
@@ -280,6 +286,9 @@ img#preview {
    left: 0px;
    margin-left: auto;
    margin-right: auto;
+   max-width: 90%;
+   height: auto;
+   width: auto\9; /* ie8 */
 }
 
 div.comment {
@@ -340,26 +349,28 @@ div.nextthumb img, div.prevthumb img {
   -moz-border-radius: 3px; 
 }
 
+div.prevthumb a, div.nextthumb a {
+    width: 27px;
+    height: 40px;
+}
+
 div.prevthumb a {
 	display: block;
-  text-decoration: none;
-	background: transparent url('left-inactive.png') bottom left no-repeat;
-	padding: 2px;
+	background: transparent url('prev-inactive.png') bottom left no-repeat;
 }
 
 div.nextthumb a {
 	display: block;
   text-decoration: none;
-	background: transparent url('right-inactive.png') bottom right no-repeat;
-	padding: 2px;
+	background: transparent url('next-inactive.png') bottom right no-repeat;
 }
 
 div.prevthumb a:hover {
-	background: transparent url('left.png') bottom left no-repeat;
+	background: transparent url('prev.png') bottom left no-repeat;
 }
 
 div.nextthumb a:hover {
-	background: transparent url('right.png') bottom right no-repeat;
+	background: transparent url('next.png') bottom right no-repeat;
 }
 
 div.nextthumb a img,div.prevthumb a img {

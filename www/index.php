@@ -34,7 +34,7 @@ $y='';
 if (isset($_GET['y'])) $y=$_GET["y"];
 $cmnt='';
 if (isset($_GET["cmnt"])) $cmnt=$_GET["cmnt"];
-$show_thumbs='';
+$show_thumbs='yes';
 if (isset($_GET["show_thumbs"])) $show_thumbs=$_GET["show_thumbs"];
 
 $page = new C_www;
@@ -304,7 +304,7 @@ if (!$galerie) {
    $path = "$gallery_dir/$galerie/thumbs";
    $imgfiles = new SortDir("$path");
    check($galerie);
-   $path = "$gallery_dir/$galerie/lq";
+   $path = "$gallery_dir/$galerie/mq";
    $file = "$path/img-$snimek.jpg";
    if (!file_exists($file)) {
       print __('No such image');
@@ -321,25 +321,40 @@ if (!$galerie) {
 
    if ($show_thumbs) {
       print "\n<!--mini thumbnail roll-->\n<div class=\"thumbroll\">";
-      print "<a id=\"minus\" href=\"$ThisScript?galerie=$galerie&amp;photo=$snimek";
-      print "\">";
-      print "</a>\n";
-      print " : \n";
+      //print "<a id=\"minus\" href=\"$ThisScript?galerie=$galerie&amp;photo=$snimek";
+      //print "\">";
+      //print "</a>\n";
+      //print " : \n";
+      $start = $snimek - 3;
+      $stop = $snimek + 3;
+      $total = count($imgfiles->items);
+      if ($snimek < 4)
+          $stop = 7;
+      if ($snimek > ($total - 4)) {
+          $start = $total - 6;
+      }
       while ($thumbfile = $imgfiles->read()) {
          if ( eregi("^img-([0-9]+)\.(png|jpe?g)",
              $thumbfile, $x)) {
+            if ($x[1] < $start || $x[1] > $stop)
+                continue;
             $thumb = "$gallery_dir/$galerie/thumbs/img-${x[1]}.${x[2]}";
             print "   <a href=\"$ThisScript?galerie=$galerie&amp;photo=${x[1]}";
             print "&amp;show_thumbs=$show_thumbs\"";
-						print " title=" . get_photo_title($galerie, $x[1]) . ">";
+						print " title=" . get_photo_title($galerie, $x[1]);
+						if ($x[1] == $snimek)
+						    print " class='current'";
+						print ">";
             print "<img class=\"thumb\" ";
             // hadess' hack (TM) ;)
             if ($thumbsize) {
                  print " width=\"24\" height=\"16\"";
             } else {
                  $minithumb=getimagesize("$root/$thumb");
-                 $w=$minithumb[0]/6;
-                 $h=$minithumb[1]/6;
+                 $h=60;
+                 $ratio = $minithumb[1]/60;
+                 $w=$minithumb[0]/$ratio;
+                 
                  print " width=\"$w\" height=\"$h\"";
             }
             print " src=\"$thumb\" ";

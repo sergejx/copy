@@ -74,8 +74,8 @@ $log_access = 1;
 #css styles
    $themes = array(
                "dark" => "inc/styles/dark/dark.css",
-               "classic" => "inc/styles/classic/classic.css",
-               "gorilla" => "inc/styles/gorilla/gorilla.css"
+               //"classic" => "inc/styles/classic/classic.css",
+               //"gorilla" => "inc/styles/gorilla/gorilla.css"
    );
 
 
