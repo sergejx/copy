@@ -429,22 +429,6 @@ div#mqhq a:hover {
 	 color: #ffb02f;
 }
 
-div.stylenavbar {
-   position: fixed;
-	 bottom: 0px;
-	 right: 0px;
-   font-size: 9px; 
-   padding: 4px;
-	 opacity: 0.4;
-}
-
-div.stylenavbar ul {
-	list-style-type: none;
-	margin-left: 0px;
-	padding-left: 0px;
-	
-}
-
 p.archives {
 	padding-top: 20px;
 	font-size: 9pt;
