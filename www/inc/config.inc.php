@@ -25,10 +25,6 @@ $scnamegallery = "Photo Gallery Index";
 # ===========================================================================
 # albums to show
    $yearsince = 1999;
-#images FIXME - this is stylesheet's job
-   $img["left"] = "left.png";
-   $img["right"] = "right.png";
-   $img["top"] = "top.png";
 # ===========================================================================
 #thumbnail behaviour
    //keep this unset for dynamic thumbnail size
