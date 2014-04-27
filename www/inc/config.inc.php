@@ -15,7 +15,7 @@ if (isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
 } else {
 	$sclang = "en";
 }
-l10n::set("$root/l10n/".$GLOBALS['sclang']."/exif.lang");
+l10n_set("$root/l10n/".$GLOBALS['sclang']."/exif.lang");
 
 # ===========================================================================
 #Name to dsplay on the gallery
