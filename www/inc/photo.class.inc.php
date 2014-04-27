@@ -199,7 +199,7 @@ class C_photo {
                                                                  // images
 
    print "<img id=\"preview\" " . $this->previewsize[3] . " src=\"". $this->file;
-	 print "\" alt=\"$snimek\" />\n";
+	 print "\" alt=\"$this->caption\" />\n";
 	}
 
 	function renderCaption() {

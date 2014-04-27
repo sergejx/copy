@@ -28,15 +28,15 @@ function __($str)
 
 //why is this a class damnit!
 //probably just to structure the functions
-class l10n
-{
-	function init()
+//class l10n
+//{
+	function l10n_init()
 	{
 		$GLOBALS['__l10n'] = array();
 		$GLOBALS['__l10n_files'] = array();
 	}
 	
-	function set($file)
+	function l10n_set($file)
 	{
 		if (!file_exists($file)) {
 			//trigger_error('l10n file not found',E_USER_NOTICE);
@@ -53,6 +53,6 @@ class l10n
 			}
 		}
 	}
-}
+//}
 
 ?>

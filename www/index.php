@@ -11,8 +11,8 @@ require_once("inc/funkce.inc.php");
 //session_register("page");
 
 #set the language translation
-l10n::set("$root/l10n/".$sclang."/main.lang");
-l10n::set("$root/l10n/".$sclang."/date.lang");
+l10n_set("$root/l10n/".$sclang."/main.lang");
+l10n_set("$root/l10n/".$sclang."/date.lang");
 
 
 
@@ -97,7 +97,7 @@ if (!$galerie) {
 
 
 	 $thisyear = 0;
-	 if (!$yearto) $yearto = date("Y");
+	 if (!isset($yearto)) $yearto = date("Y");
    for ($i = $yearto; $i >= $yearsince; $i--) {
       for ($thismonth=12; $thismonth>0; $thismonth--) { // go year by year, month by month
 																												// down
@@ -290,7 +290,7 @@ if (!$galerie) {
       exit;
    }
 	 
-	 if (!$picture) { //picture may have been created if commentform submitted
+	 if (!isset($picture)) { //picture may have been created if commentform submitted
 	    require_once("$root/inc/photo.class.inc.php");
 	    $picture = new C_photo($file, $snimek);
 	 }
@@ -368,7 +368,7 @@ if (!$galerie) {
 
 
 
-   if (function_exists(exif_read_data)) require("$root/inc/exif.inc.php"); 
+   if (function_exists('exif_read_data')) require("$root/inc/exif.inc.php");
 	 /* Image comment
 	 		really poor naming here, it is caption.
 	 */
