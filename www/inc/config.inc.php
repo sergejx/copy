@@ -59,10 +59,6 @@ $scnamegallery = "Photo Gallery Index";
 # eg. it can be "../galleries" to use a galleries dir above the original dir.
   $gallery_dir="galleries";
 
-#Enable this to access extended tracking functionality
-#depends on sqlite
-$have_sqlite = 0;
-
 #css styles
    $themes = array(
                "dark" => "inc/styles/dark/dark.css",
