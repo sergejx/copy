@@ -13,7 +13,6 @@ class C_photo {
 	var $caption;
 	var $file;
 	var $number;
-	var $counter;
 	var $album;
 
 	function C_photo($file, $number) {
@@ -42,7 +41,6 @@ class C_photo {
 			$db->query($sql);
 		}
 		$this->readCaption();
-		$this->readCounter(); //reads access log number
 		if ($GLOBALS['have_sqlite']) { //need to get photo id first
 			if (!$db->count()) {//no record for this photo, let's update the record
 				//FIXME - if no photo data in db, create a unique index for it
@@ -108,75 +106,6 @@ class C_photo {
 			}
 	}
 	
-	function readCounter() {
-		global $log_access, $root, $gallery_dir, $galerie, $db;
-
-		if ($GLOBALS['have_sqlite']) {
-			//try reading from sqlite
-			if ($db->count()) {
-				$db->rewind();
-				$result = sqlite_fetch_array($db->result);
-				$this->counter = $result["counter"];
-				return; //no need to fallback anymore
-			}
-		} 
-		//we fallback to filesystem :/
-		 if (is_writable("$root/$gallery_dir/$galerie/comments")) { // needs perms
-			 $log = "$root/$gallery_dir/$galerie/comments/log_" . $this->number . ".txt";
-			 if (file_exists($log)){
-				 $fh = @fopen($log, "r");
-				 $this->counter = rtrim(fgets($fh));
-				 fclose($fh);
-			 } else {
-				 $this->counter = 0;
-			 }
-		 } else {
-			 //doesn't do anything if no perms
-			 print "<!-- ". __('WARNING: comment dir not writable') . "-->\n";
-			 return 0; //failure
-		 }
-		 return 1; //success
-	}
-
-	function renderCounter() {
-		
-		 print "\n<div id=\"log\">\n";
-		 print __('This image has been viewed') . " ";
-		 print "<strong>" . $this->counter . "</strong>". " " . __('times') . ".";
-		 print "</div>\n\n";
-		 $this->writeCounter(); //save state
-
-	}
-
-	function writeCounter() {
-		global $log_access, $root, $gallery_dir, $galerie, $page, $db;
-
-		$this->counter++; //we add to counter
-		if ($GLOBALS['have_sqlite']) {
-			//we have SQLite
-			$sql = "update photo set counter=" . $this->counter;
-			$sql .= " where id=" . $this->id;
-			$db->query($sql);
-			return; //no need to fallback anymore
-		} 
-		 //fallback to filesystem
-		 if (is_writable("$root/$gallery_dir/$galerie/comments")) { // needs perms
-			 $log = "$root/$gallery_dir/$galerie/comments/log_". $this->number .".txt";
-			 if (file_exists($log) && !is_writable($log)) {
-				 print "\n\n\n<!-- cannot open $log. Check permissions.";
-				 print "\nAborting counter write -->\n";
-				 return 0;
-			 }
-			 $fh = fopen($log,"w");
-			 if (!fwrite($fh, $this->counter . "\n")) {
-					$page->error( __('Could not write to') . $log . "!");
-					$page->footer();
-					exit; //stop everything
-			 }
-			 fclose($fh);
-		 }
-	}
-
 	function renderBigSize() {
 
    if ($this->mq || $this->hq) {

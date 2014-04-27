@@ -63,10 +63,6 @@ $scnamegallery = "Photo Gallery Index";
 #depends on sqlite
 $have_sqlite = 0;
 
-# Access Log/Counter
-# $log_access = 0; // no access logging
-$log_access = 1; 
-
 #css styles
    $themes = array(
                "dark" => "inc/styles/dark/dark.css",

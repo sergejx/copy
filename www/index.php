@@ -374,12 +374,6 @@ if (!$galerie) {
 	 */
 	 $picture->renderCaption();
 
- 	
-	 //show page counter
-	 if ($log_access) {
-			$picture->renderCounter();
-	 }
-
 	 $picture->renderBigSize();
 
    $page->navigation($galerie, $snimek, null);
