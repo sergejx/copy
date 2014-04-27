@@ -198,10 +198,6 @@ p.bigthumbnails a:hover {
 	 Filter: none; /* IE */
 }
 
-a.hascomments {
-   background: #232729 url('hascomments.png') 95% 95% no-repeat;
-}
-
 div.navigation {
     margin-top: 20px;
     background-color: #5b5c59;
@@ -472,95 +468,4 @@ p.archives a:hover {
 .accesskey {
 	text-decoration: underline;
 }
-/* Formatting of the user comment stuff */
-
-form {
-	 padding-bottom: 40px;
-	 clear: both;
-}
-
-form #comment_block {
-	 clear: both;
-   color: #ccc;
-   font-size: 10px;
-}
-
-#comment_block #showhideform {  
-    font-size: x-small;
-		margin-bottom: 10px;
-}
-
-#comment_form {
-	font-size: 9pt;
-	padding-top: 20px;
-	width: 420px;
-	margin-bottom: 20px;
-	-moz-border-radius: 3px; 
-}
-
-.row {
-	clear: both !important;
-}
-
-div.label {
-	float: left;
-	width: 110px;
-}
-
-.label a {
-	color: white;
-	cursor: help;
-	border-bottom: 1px dotted #6b6c69;
-	text-decoration: none;
-}
-	
-div.control {
-	padding: 4px;
-	float: right;
-	width: 270px;
-}
-
-div.user_comment {
-	clear: both;
-	margin-top: 40px;
-	background-color: #3a3a3a;
-	padding: 10px;
-	-moz-border-radius: 7px; 
-}
-
-div.user_comment div.commentdata {
-    margin: 10px;
-		font-size: 10pt;
-    margin-bottom: 20px;
-} 
-
-div.user_comment div.name {
-		color: #666;
-    font-size: 9pt;
-    margin-bottom: 2px;
-}
-div.user_comment div.name em {
-		font-weight: bold;
-}
-
-textarea, input[type="text"] {
-    font-family: Georgia, "Bitstream Vera Sans", sans-serif;
-    font-size: 9pt;
-    color: #eeeeec;
-    background-color: #5b5c59;
-    -moz-border-radius: 3px; 
-		border: 1px solid #888;
-		width: 100%;
-		padding: 4px;
-}
-input[type="submit"] {
-    -moz-border-radius: 3px; 
-		border: 1px solid #888;
-		padding: 4px;
-    background-color: #5b5c59;
-    font-family: Georgia, "Bitstream Vera Sans", sans-serif;
-    font-size: 10pt;
-    color: #eeeeec;
-}
-
 

@@ -12,12 +12,8 @@ if ($GLOBALS['have_sqlite']) {
 	require("inc/header.inc.php");
 	//recent views
 	print "<h2>Recently Viewed</h2>";
-	//recently commented
-	print "<h2>Recently Commented</h2>";
 	//most viewed
 	print "<h2>Most Viewed</h2>";
-	//most discussed
-	print "<h2>Most Discussed</h2>";
 } else {
 	$page->error("No SQLite", "You need SQLite to use view statistics.");
 }

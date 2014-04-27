@@ -47,24 +47,6 @@ var image_preview = document.getElementById('preview');
 image_preview.style.marginLeft = "-" + (image_preview.width/2 + 16) + "px";
 }
 
-// to hide and show the comment block
-// inspired by www.wikipedia.org
-function toggle_comment() {
-    var comment_form = document.getElementById('comment_form');
-    var showlink=document.getElementById('showlink');
-    var hidelink=document.getElementById('hidelink');
-    if(comment_form.style.display == 'none') {
-	comment_was = comment_form.style.display; 
-	comment_form.style.display = '';
-	hidelink.style.display='';
-	showlink.style.display='none';
-    } else {
-	comment_form.style.display = comment_was;
-	hidelink.style.display='none';
-	showlink.style.display='';
-    }
-}
-
 function toggle_div(classname) {
 	var div = document.getElementById(classname);
     if(div.style.display == 'none') {

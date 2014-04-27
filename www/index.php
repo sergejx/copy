@@ -53,8 +53,6 @@ if ($galerie) {
 	}
 }
 
-$page->process_comment_form();
-
 //START RENDERING
 
 
@@ -204,26 +202,6 @@ if (!$galerie) {
 					 //portraits need a special class for styling
 					 $class = "portrait";
 				 }
-				 //check for number of comments per photo
-				 if ($comments) { //there probably won't be user comments if it's off
-				   $NumOfComments = 0;
-					 if (file_exists("$gallery_dir/$galerie/comments/user_${x[1]}.txt")) {
-							if ($class) $class .= " ";
-							$class .= "hascomments";
-							//now let's count'em
-							$fh = fopen("$gallery_dir/$galerie/comments/user_${x[1]}.txt","r");
-							while (!feof($fh)) {
-								$line = fgets($fh);
-								if (eregi("commententry",$line)) $NumOfComments++;
-							}
-							fclose($fh);
-					 }
-					 if ($NumOfComments==1) {
-						 $NumOfComments = $NumOfComments . " " . __('Comment');
-					 } else {
-						 $NumOfComments = $NumOfComments . " " . __('Comments');
-					 }
-				 }
 	 if (file_exists("$gallery_dir/$galerie/comments/${x[1]}.txt") &&
 		   $title = file_get_contents("$gallery_dir/$galerie/comments/${x[1]}.txt")) {
 	     $title = ereg_replace("(\"|\')","",trim(strip_tags($title)));
@@ -232,7 +210,7 @@ if (!$galerie) {
 	   $title = "Photo ${x[1]}";
 
          print "   <a href=\"$ThisScript?galerie=$galerie&amp;photo=${x[1]}\"";
-				 print " title=\"$title, $NumOfComments\"";
+				 print " title=\"$title\"";
 				 if ($class) print " class=\"$class\"";
 				 print ">";
          print "<img ";
@@ -404,7 +382,6 @@ if (!$galerie) {
 
 	 $picture->renderBigSize();
 
-   $page->user_comments($picture->number);
    $page->navigation($galerie, $snimek, null);
 }
 

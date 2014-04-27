@@ -1,7 +1,6 @@
 <?php
 /* SQLite DB class for storing
    - image views,
-	 - user comments
 */
 
 $dbfile = "$root/$gallery_dir/photos.db";
@@ -27,10 +26,6 @@ class SQLiteDatabase {
 				//photo table
 				$sql = "create table photo (id INTEGER PRIMARY KEY, caption TEXT, ";
 				$sql .= "counter INTEGER, number INTEGER, album TEXT, name TEXT)";
-				$this->query($sql);
-				//comment table
-				$sql = "create table comment (id INTEGER PRIMARY KEY, user TEXT, ";
-				$sql .= "comment_body TEXT, photo_id INT, date DATETIME)";
 				$this->query($sql);
 			}
 		}

@@ -63,10 +63,6 @@ $scnamegallery = "Photo Gallery Index";
 #depends on sqlite
 $have_sqlite = 0;
 
-# This controls wheather web visitors will be able to post
-# comments to images
-$comments = 1;
-
 # Access Log/Counter
 # $log_access = 0; // no access logging
 $log_access = 1; 

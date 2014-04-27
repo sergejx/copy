@@ -15,7 +15,6 @@ class C_photo {
 	var $number;
 	var $counter;
 	var $album;
-	var $comments; //rendered string
 
 	function C_photo($file, $number) {
 		global $root, $gallery_dir, $galerie, $db;
@@ -69,7 +68,6 @@ class C_photo {
 			$this->id = $resultarray["id"];
 			print "\n\n<!-- image id: " . $this->id . " -->\n";
 		}
-		$this->readComments();
 	}
 
 	function readCaption() {
@@ -140,31 +138,6 @@ class C_photo {
 		 return 1; //success
 	}
 
-	function readComments() {
-		global $root, $gallery_dir, $galerie, $db;
-		
-		if ($GLOBALS['have_sqlite']) {
-			//we have and will use SQLite
-			//FIXME
-			print "\n<!--SQLITE comments FIXME-->\n\n";
-			return 1;
-		} else {
-			//filesystem
-		 	$comments = "$root/$gallery_dir/$galerie/comments/user_" . $this->number . ".txt";
-			if (file_exists($comments)){
-				$buffer = "";
-				$fh = @fopen($comments, "r");
-				if ($fh) {
-					 while (!feof($fh)) {
-							 $buffer .= fgets($fh, 4096);
-					 }
-					 $this->comments = $buffer;
-					 fclose($fh);
-				}
-			}
-		}
-	}
-	
 	function renderCounter() {
 		
 		 print "\n<div id=\"log\">\n";
@@ -237,42 +210,6 @@ class C_photo {
 			print " &ndash; ";
 			print $this->caption;
 			print "</div>";
-		}
-	}
-
-	function addComment($comment_name, $comment_data) { //adds comment to file or database
-		global $log_access, $root, $gallery_dir, $galerie, $page;
-
-		if ($GLOBALS['have_sqlite']) {
-			//sqlite
-			print "\n<!--SQLITE comments addition FIXME-->\n\n";
-		} else {
-				//filesystem
-				if (is_writable("$root/$gallery_dir/$galerie/comments")) { // needs perms
-					$comment = "$root/$gallery_dir/$galerie/comments/user_";
-					$comment .= $this->number . ".txt";
-					if (file_exists($comment) && !is_writable($comment)) {
-							$page->error("Permission Denied", __('Could not write to')  . $comment . 
-								"!\n Check permissions.\n");
-							$page->footer();
-							exit; //stop everything
-					}
-
-					$fh = fopen("$comment", "a");
-					if (!$comment_name) {
-							$comment_name = __('Anonymous');
-					}
-					if (!fwrite($fh, "<div class=\"commententry\">\n")) {
-							$page->error("Write Failed",  __('Could not write to')  . $comment . "!" );
-							$page->footer();
-							exit; //stop everything
-					}
-					fwrite($fh, "   <div class=\"name\">" . __('Comment from') . "<em>$comment_name</em></div>\n",90);
-					fwrite($fh, "   <div class=\"commentdata\">$comment_data</div>\n",280);
-					fwrite($fh, "</div>\n");
-					
-					fclose($fh);
-				}
 		}
 	}
 }
