@@ -60,13 +60,6 @@ $scnamegallery = "Photo Gallery Index";
   $gallery_dir="galleries";
 
 #css styles
-   $themes = array(
-               "dark" => "inc/styles/dark/dark.css",
-               //"classic" => "inc/styles/classic/classic.css",
-               //"gorilla" => "inc/styles/gorilla/gorilla.css"
-   );
-
-
-
+   $theme = "inc/styles/dark/dark.css";
 
 ?>

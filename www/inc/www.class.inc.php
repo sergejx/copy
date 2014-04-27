@@ -8,7 +8,7 @@ class C_www {
    // !vykpise HTML hlavicku dokumentu
    // Ten CSS style jeste neni moc dodelanej
    function header($title) {
-      global $gallery_dir,$root, $snimek, $galerie, $ThisScript, $themes;
+      global $gallery_dir,$root, $snimek, $galerie, $ThisScript, $theme;
 
 			header("Content-Type: text/html; charset=utf-8");// make sure we send in utf8
 																											 // and override Apache
@@ -72,30 +72,15 @@ class C_www {
 			}
 		}
       
-      /* check the theme in a cookie */
-      $theme = @$_COOKIE["theme"];
-      if (!$theme) { //we didn't set the cookie yet
-	 // select first key of the themes array in config.inc.php as default
-	 $theme_keys = array_keys($themes);
-	 $theme = $theme_keys[0]; 
-      }
-      foreach ($themes as $skin => $url) {
-         echo "<link type=\"text/css\" rel=\"";
-         if ($skin==$theme) {
-            echo "stylesheet";
-         } else {
-            echo "prefertch alternate stylesheet";
-         }
-         echo "\" href=\"$url\" title=\"$skin\"";
+         echo "<link type=\"text/css\" rel=\"stylesheet\"";
+         echo " href=\"$theme\"";
          echo " media=\"screen\" />\n";
-      }
      
       //require("javascript.inc.php");
 			echo "<script src=\"inc/global.js\" ";
 			echo "type=\"text/javascript\"></script>\n";
       echo "</head>\n\n";
-      echo "<body onload=\"checkForTheme()";
-      echo "\">\n";
+      echo "<body>\n";
    }
 
    ////
