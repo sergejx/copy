@@ -55,7 +55,6 @@ if ($galerie) {
 
 
 page_header("Photos");
-require("inc/header.inc.php");
 
 // folder > tree
 //print "<div class=\"navigation\"><a href=\"$ThisScript\">" . $scnamegallery . "</a>";
@@ -377,6 +376,5 @@ if (!$galerie) {
    page_navigation($galerie, $snimek, null);
 }
 
-require("inc/footer.inc.php");
 page_footer();
 ?>
