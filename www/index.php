@@ -5,7 +5,7 @@
 #language support
 require_once ("lib/lib.l10n.php");
 require_once("inc/config.inc.php");
-require_once("inc/www.class.inc.php");
+require_once("inc/page.php");
 require_once("inc/funkce.inc.php");
 //session_name("navstevnik");
 //session_register("page");
@@ -37,8 +37,6 @@ if (isset($_GET["cmnt"])) $cmnt=$_GET["cmnt"];
 $show_thumbs='yes';
 if (isset($_GET["show_thumbs"])) $show_thumbs=$_GET["show_thumbs"];
 
-$page = new C_www;
-//default colors
 
 if (!is_dir("$gallery_dir/$galerie/thumbs")) {
   $galerie = "";
@@ -56,7 +54,7 @@ if ($galerie) {
 //START RENDERING
 
 
-$page->header("Photos");
+page_header("Photos");
 require("inc/header.inc.php");
 
 // folder > tree
@@ -286,7 +284,7 @@ if (!$galerie) {
    $file = "$path/img-$snimek.jpg";
    if (!file_exists($file)) {
       print __('No such image');
-      $page->footer();
+      page_footer();
       exit;
    }
 	 
@@ -362,8 +360,8 @@ if (!$galerie) {
    /* main image + thumbnail navigation (prev/next) */
 
    $picture->renderPreview();
-   $page->navigation($galerie, $snimek, "prev");
-   $page->navigation($galerie, $snimek, "next");
+   page_navigation($galerie, $snimek, "prev");
+   page_navigation($galerie, $snimek, "next");
    print "</div>\n"; //end image div
 
 
@@ -376,9 +374,9 @@ if (!$galerie) {
 
 	 $picture->renderBigSize();
 
-   $page->navigation($galerie, $snimek, null);
+   page_navigation($galerie, $snimek, null);
 }
 
 require("inc/footer.inc.php");
-$page->footer();
+page_footer();
 ?>

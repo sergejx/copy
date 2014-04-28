@@ -1,13 +1,5 @@
 <?php
-// www.class.inc.php
-class C_www {
-   var $background, $bgcolor, $link, $vlink, $alink, $hover, $language;
-   var $textcol, $font, $fontsize;
-
-   ////
-   // !vykpise HTML hlavicku dokumentu
-   // Ten CSS style jeste neni moc dodelanej
-   function header($title) {
+function page_header($title) {
       global $gallery_dir,$root, $snimek, $galerie, $ThisScript, $theme;
 
 			header("Content-Type: text/html; charset=utf-8");// make sure we send in utf8
@@ -81,16 +73,16 @@ class C_www {
 			echo "type=\"text/javascript\"></script>\n";
       echo "</head>\n\n";
       echo "<body>\n";
-   }
+}
 
-   ////
-   // !zavre html stranku
-   function footer() {
+
+function page_footer() {
       echo "</body>\n";
       echo "</html>\n";
-   }
+}
 
-	function navigation ($gallery, $snapshot, $image) {
+
+function page_navigation ($gallery, $snapshot, $image) {
    global $gallery_dir, $root, $ThisScript, $textnav, $img, 
           $show_thumbs, $exif_style, $PNthumbScale;
 
@@ -150,7 +142,6 @@ class C_www {
          echo "</a></div>\n";
       }
    }
-        }
 }
 
 # return dirs sorted
