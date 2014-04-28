@@ -90,18 +90,6 @@ class C_www {
       echo "</html>\n";
    }
 
-   ////
-   // !vypise chybovou hlasku
-   // $title - nadpis a title HTML stranky
-   // $message - vlastni chybova hlaska
-   function error($title, $message) {
-         $this->header($title);
-         echo "<h1>$title</h1>\n";
-         echo $message;
-         $this->footer();
-         exit; //vysere se na vsechno
-   }
-
 	function navigation ($gallery, $snapshot, $image) {
    global $gallery_dir, $root, $ThisScript, $textnav, $img, 
           $show_thumbs, $exif_style, $PNthumbScale;

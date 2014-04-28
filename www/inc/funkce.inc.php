@@ -12,29 +12,6 @@ function check($file) {
    }
 }
 
-function browserCheck() {
-   global $HTTP_USER_AGENT;
-   
-	 $HTTP_USER_AGENT=$_SERVER["HTTP_USER_AGENT"];
-   if (eregi("(MSIE.[456789]).*Mac.*",$HTTP_USER_AGENT)) {
-        return("macie4+");
-   } elseif (eregi("(MSIE.[678])",$HTTP_USER_AGENT)) {
-        return("ie6+");
-   } elseif (eregi("(MSIE.[45])",$HTTP_USER_AGENT)) {
-        return("ie4+");
-   } elseif (eregi("Opera",$HTTP_USER_AGENT)) {
-        return("opera");
-   } elseif (eregi("(Mozilla.4)",$HTTP_USER_AGENT)) {
-        return("netscape4");
-   } elseif (eregi("(Mozilla.[5-9])",$HTTP_USER_AGENT)) {
-        return("mozilla");
-   } elseif (eregi("KMeleon",$HTTP_USER_AGENT)) {
-        return("mozilla");
-   } else {
-        return("Netscape3");
-   }
-}
-
 function infoParse ($infofile) {
 	
 	$info_array = file($infofile);
@@ -111,14 +88,6 @@ function access_check($login, $password,$realm) {
       exit;
    }
 
-}
-
-function random_digits($times) {
-	$random="";
-	for ($i=0;$i<$times;$i++) {
-		$random .= rand(0,9);
-	}
-	return $random;
 }
 
 function get_photo_title($galerie, $id) {
