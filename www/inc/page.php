@@ -67,7 +67,7 @@ function sequence_links($gallery, $snapshot) {
 
 function page_navigation ($gallery, $snapshot, $image) {
    global $gallery_dir, $root, $ThisScript, $textnav, $img, 
-          $show_thumbs, $exif_style, $PNthumbScale;
+          $exif_style, $PNthumbScale;
 
    $next = $snapshot + 1;
    $prev = $snapshot - 1;
@@ -77,14 +77,14 @@ function page_navigation ($gallery, $snapshot, $image) {
       echo "<div class=\"navbuttonsshell\">\n";
       if ($snapshot > 1) { //previous 
          echo "<a id=\"previcon\" href=\"$ThisScript?galerie=$gallery&amp;photo=$prev";
-         echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\"";
+         echo "&amp;exif_style=$exif_style\"";
 				 echo " accesskey=\"p\">";
          echo "&lt; <span class=\"accesskey\">P</span>revious</a>\n";
       }
       echo "&nbsp;";
       if (is_file("$gallery_dir/$gallery/lq/img-$next.jpg")) { //next
          echo "<a id=\"nexticon\" href=\"$ThisScript?galerie=$gallery&amp;photo=$next";
-         echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\"";
+         echo "&amp;exif_style=$exif_style\"";
 				 echo " accesskey=\"n\">";
          echo "<span class=\"accesskey\">N</span>ext &gt;</a>\n";
       }
@@ -93,14 +93,14 @@ function page_navigation ($gallery, $snapshot, $image) {
       if ($snapshot > 1) {
          echo "<div class=\"prevthumb\">";
          echo "<a href=\"$ThisScript?galerie=$gallery&amp;photo=$prev";
-         echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\">";
+         echo "&amp;exif_style=$exif_style\">";
          echo "</a></div>\n";
       }
    } else { // next image link
       if (is_file("$gallery_dir/$gallery/lq/img-$next.jpg")) {
          echo "<div class=\"nextthumb\">";
          echo "<a href=\"$ThisScript?galerie=$gallery&amp;photo=$next";
-         echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\">";
+         echo "&amp;exif_style=$exif_style\">";
          echo "</a></div>\n";
       }
    }

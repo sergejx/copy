@@ -34,8 +34,6 @@ $y='';
 if (isset($_GET['y'])) $y=$_GET["y"];
 $cmnt='';
 if (isset($_GET["cmnt"])) $cmnt=$_GET["cmnt"];
-$show_thumbs='yes';
-if (isset($_GET["show_thumbs"])) $show_thumbs=$_GET["show_thumbs"];
 
 
 if (!is_dir("$gallery_dir/$galerie/thumbs")) {
@@ -294,12 +292,7 @@ if (!$galerie) {
 
    // mini thumbnail roll
 
-   if ($show_thumbs) {
       print "\n<!--mini thumbnail roll-->\n<div class=\"thumbroll\">";
-      //print "<a id=\"minus\" href=\"$ThisScript?galerie=$galerie&amp;photo=$snimek";
-      //print "\">";
-      //print "</a>\n";
-      //print " : \n";
       $start = $snimek - 3;
       $stop = $snimek + 3;
       $total = count($imgfiles->items);
@@ -314,8 +307,7 @@ if (!$galerie) {
             if ($x[1] < $start || $x[1] > $stop)
                 continue;
             $thumb = "$gallery_dir/$galerie/thumbs/img-${x[1]}.${x[2]}";
-            print "   <a href=\"$ThisScript?galerie=$galerie&amp;photo=${x[1]}";
-            print "&amp;show_thumbs=$show_thumbs\"";
+            print "   <a href=\"$ThisScript?galerie=$galerie&amp;photo=${x[1]}\"";
 						print " title=" . get_photo_title($galerie, $x[1]);
 						if ($x[1] == $snimek)
 						    print " class='current'";
@@ -346,17 +338,8 @@ if (!$galerie) {
          print "zip<span /></a>";
       }
       print "</div>\n";
-   } else {
-      // show the popup button
-      print "\n<!--mini thumbnail popup-->\n<div class=\"thumbroll\">";
-      print "<a id=\"plus\" href=\"$ThisScript?galerie=$galerie&amp;photo=$snimek";
-      print "&amp;show_thumbs=yes\"";
-			print " title=\"" . __('Show Thumbnail Navigation') . "\">";
-      print "</a>\n";
-      print "</div>\n";
-   }
 
-   /* main image + thumbnail navigation (prev/next) */
+   /* main image + navigation (prev/next) */
 
    $picture->renderPreview();
    page_navigation($galerie, $snimek, "prev");
