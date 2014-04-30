@@ -89,39 +89,18 @@ function page_navigation ($gallery, $snapshot, $image) {
          echo "<span class=\"accesskey\">N</span>ext &gt;</a>\n";
       }
       echo "</div>\n</div>\n";
-   } elseif ($image=="prev") { //previous thumbnail
-      if ($snapshot > 1) { //previous 
+   } elseif ($image=="prev") { // previous image link
+      if ($snapshot > 1) {
          echo "<div class=\"prevthumb\">";
          echo "<a href=\"$ThisScript?galerie=$gallery&amp;photo=$prev";
          echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\">";
-         /*if (file_exists("$gallery_dir/$gallery/thumbs/img-$prev.png")) {
-            $Pthumb = "$gallery_dir/$gallery/thumbs/img-$prev.png";
-         } else {
-            $Pthumb = "$gallery_dir/$gallery/thumbs/img-$prev.jpg";
-         }
-         $v = getimagesize("$root/$Pthumb");
-         echo "<img alt=\"Previous\" src=\"";
-         echo $Pthumb . "\" width=\"" . round($v[0]/$PNthumbScale);
-         echo "\" height=\"" . round($v[1]/$PNthumbScale) . "\" />";
-         echo "<br />" . __('Previous');*/
          echo "</a></div>\n";
       }
-   } else { //next thumbnail
+   } else { // next image link
       if (is_file("$gallery_dir/$gallery/lq/img-$next.jpg")) {
          echo "<div class=\"nextthumb\">";
          echo "<a href=\"$ThisScript?galerie=$gallery&amp;photo=$next";
          echo "&amp;exif_style=$exif_style&amp;show_thumbs=$show_thumbs\">";
-         /*if (file_exists("$gallery_dir/$gallery/thumbs/img-$next.png")) {
-            $Nthumb = "$gallery_dir/$gallery/thumbs/img-$next.png";
-         } else {
-            $Nthumb = "$gallery_dir/$gallery/thumbs/img-$next.jpg";
-         }
-         $v = getimagesize("$root/$Nthumb");
-         echo "<img alt=\"Next\" src=\"";
-         echo $Nthumb . "\" width=\"" . round($v[0]/$PNthumbScale);
-         echo "\" height=\"" . round($v[1]/$PNthumbScale) . "\" />";
-         //echo "<br /><span class=\"accesskey\">N</span>ext";
-         echo "<br />" . __('Next') ;	 */
          echo "</a></div>\n";
       }
    }
