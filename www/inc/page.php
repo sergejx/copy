@@ -21,38 +21,7 @@ function page_header($title) {
 
 <link rel="icon" href="stock_camera-16.png" type="image/png">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<?php
-      # mozilla style links
-		if ($snimek && $galerie) {
-			#Top
-			echo "   <link rel=\"Top\"      href=\"$ThisScript\" />\n";
-			#First
-			#Prev
-			$predchozi = $snimek - 1;
-			$dalsi = $snimek + 1;
-   		if ($snimek > 1) {
-				echo "   <link rel=\"First\" ";
-				echo "   href=\"$ThisScript?galerie=$galerie&amp;photo=1\" />\n";
-				echo "   <link rel=\"Previous\" ";
-				echo "href=\"$ThisScript?galerie=$galerie&amp;photo=$predchozi\" />\n";
-			}
-			#Next
-			if (is_file("$gallery_dir/$galerie/lq/img-$dalsi.jpg")) {
-				echo "   <link rel=\"Next\" ";
-				echo "    href=\"$ThisScript?galerie=$galerie&amp;photo=$dalsi\" />\n";
-			}
-			#Last
-			$adr = opendir("$gallery_dir/$galerie/thumbs/");
-			$i = -2;
-			while ($file = readdir($adr)) {
-				$i++;
-			}
-			if ($i!=$snimek) {
-				echo "   <link rel=\"Last\" ";
-				echo "    href=\"$ThisScript?galerie=$galerie&amp;photo=$i\" />\n";
-			}
-		}
-?>
+<?php if ($snimek && $galerie) sequence_links($galerie, $snimek); ?>
 <link type="text/css" rel="stylesheet" href="<?php echo $theme; ?>" media="screen">
      
 <script src="inc/global.js" type="text/javascript"></script>
@@ -75,6 +44,24 @@ function page_footer() {
 </body>
 </html>
 <?php
+}
+
+
+function sequence_links($gallery, $snapshot) {
+    global $gallery_dir, $ThisScript;
+    $prev = $snapshot - 1;
+    $next = $snapshot + 1;
+    if ($snapshot > 1) {
+        echo "<link rel=\"prev\" ";
+        echo "href=\"$ThisScript?galerie=$gallery&amp;photo=$prev\">\n";
+    }
+    if (is_file("$gallery_dir/$gallery/lq/img-$next.jpg")) {
+        // Prefetch next page and image
+        echo "<link rel=\"next prefetch\" ";
+        echo "href=\"$ThisScript?galerie=$gallery&amp;photo=$next\">\n";
+        echo "<link rel=\"prefetch\" ";
+        echo "href=\"${ThisScript}galleries/$gallery/mq/img-$next.jpg\">\n";
+    }
 }
 
 
