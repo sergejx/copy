@@ -25,7 +25,6 @@ $galerie='';
 if (isset($_GET['galerie'])) $galerie=$_GET["galerie"];
 if (isset($_GET['gallery'])) $galerie=$_GET["gallery"];
 $galerie = preg_replace('/\//', '', $galerie);
-if (isset($_GET["thumbsize"])) $thumbsize=$_GET["thumbsize"];
 $snimek = 0;
 if (isset($_GET["snimek"])) $snimek=$_GET["snimek"];
 if (isset($_GET["photo"])) $snimek=$_GET["photo"];
@@ -209,9 +208,6 @@ if (!$galerie) {
 				 if ($class) print " class=\"$class\"";
 				 print ">";
          print "<img ";
-         if (isset($thumbsize)) {
-            print "width=\"120\" height=\"80\" ";
-         } else {
             // scale portraits to 80 height
             if ($portrait) {
 							//portrait
@@ -223,7 +219,6 @@ if (!$galerie) {
 							//landscape
                print $imgsize[3]; 
             }
-         }
          print " src=\"$thumb\" ";
          print "alt=\"photo No. ${x[1]}\" />";
          print "</a>\n";
@@ -313,17 +308,12 @@ if (!$galerie) {
 						    print " class='current'";
 						print ">";
             print "<img class=\"thumb\" ";
-            // hadess' hack (TM) ;)
-            if ($thumbsize) {
-                 print " width=\"24\" height=\"16\"";
-            } else {
                  $minithumb=getimagesize("$root/$thumb");
                  $h=60;
                  $ratio = $minithumb[1]/60;
                  $w=$minithumb[0]/$ratio;
                  
                  print " width=\"$w\" height=\"$h\"";
-            }
             print " src=\"$thumb\" ";
             print "alt=\"photo No. ${x[1]}\" />";
             print "</a> \n";

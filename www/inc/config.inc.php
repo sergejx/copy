@@ -27,8 +27,6 @@ $scnamegallery = "Photo Gallery Index";
    $yearsince = 1999;
 # ===========================================================================
 #thumbnail behaviour
-   //keep this unset for dynamic thumbnail size
-   //$thumbsize = "fixed";
    //How the previous and Next thumbnails should be scaled
    // 1 is 1:1, >1 is smaller, <1 is bigger
    $PNthumbScale = 1.5;
