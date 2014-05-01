@@ -4,14 +4,13 @@ class Gallery {
     var $year, $month, $day;
     var $desc, $author, $name;
     var $login, $pw;
-    var $path, $full_path;
+    var $path;
 
     function __construct($id) {
-        global $root, $gallery_dir;
+        global $gallery_dir;
         $this->id = $id;
         $this->path = "$gallery_dir/$id";
-        $this->full_path = "$root/{$this->path}";
-        $infofile = "{$this->full_path}/info.txt";
+        $infofile = "{$this->path}/info.txt";
         if (file_exists($infofile)) {
             //read from info.txt
             $info_array = $this->infoParse($infofile);
@@ -114,7 +113,7 @@ class Photo {
 
 	function readCaption() {
 		  $buffer = "";
-        $captionfile = "{$this->gallery->full_path}/comments/" . $this->number . ".txt";
+        $captionfile = "{$this->gallery->path}/comments/" . $this->number . ".txt";
 			$fh = @fopen($captionfile, "r");
 			if ($fh) {
 				 while (!feof($fh)) {
