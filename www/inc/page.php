@@ -65,24 +65,21 @@ function sequence_links($gallery, $snapshot) {
 }
 
 
-function page_navigation ($gallery, $snapshot, $image) {
-   global $gallery_dir, $root, $ThisScript, $textnav, $img, 
-          $exif_style, $PNthumbScale;
-
-   $next = $snapshot + 1;
-   $prev = $snapshot - 1;
-
+function page_navigation($gallery, $photo, $image) {
+    global $ThisScript, $exif_style;
    if (!$image) { // this will render a navigation bar - max 3 buttons
       echo "\n<div class=\"navbuttons\">\n";
       echo "<div class=\"navbuttonsshell\">\n";
-      if ($snapshot > 1) { //previous 
+        if ($photo->has_prev()) { //previous
+            $prev = $photo->get_prev()->number;
          echo "<a id=\"previcon\" href=\"$ThisScript?galerie=$gallery&amp;photo=$prev";
          echo "&amp;exif_style=$exif_style\"";
 				 echo " accesskey=\"p\">";
          echo "&lt; <span class=\"accesskey\">P</span>revious</a>\n";
       }
       echo "&nbsp;";
-      if (is_file("$gallery_dir/$gallery/lq/img-$next.jpg")) { //next
+        if ($photo->has_next()) { //next
+            $next = $photo->get_next()->number;
          echo "<a id=\"nexticon\" href=\"$ThisScript?galerie=$gallery&amp;photo=$next";
          echo "&amp;exif_style=$exif_style\"";
 				 echo " accesskey=\"n\">";
@@ -90,14 +87,16 @@ function page_navigation ($gallery, $snapshot, $image) {
       }
       echo "</div>\n</div>\n";
    } elseif ($image=="prev") { // previous image link
-      if ($snapshot > 1) {
+        if ($photo->has_prev()) {
+            $prev = $photo->get_prev()->number;
          echo "<div class=\"prevthumb\">";
          echo "<a href=\"$ThisScript?galerie=$gallery&amp;photo=$prev";
          echo "&amp;exif_style=$exif_style\">";
          echo "</a></div>\n";
       }
    } else { // next image link
-      if (is_file("$gallery_dir/$gallery/lq/img-$next.jpg")) {
+        if ($photo->has_next()) {
+            $next = $photo->get_next()->number;
          echo "<div class=\"nextthumb\">";
          echo "<a href=\"$ThisScript?galerie=$gallery&amp;photo=$next";
          echo "&amp;exif_style=$exif_style\">";

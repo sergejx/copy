@@ -292,8 +292,8 @@ function render_photo($galerie, $snimek) {
     /* main image + navigation (prev/next) */
 
     $picture->renderPreview();
-    page_navigation($galerie, $snimek, "prev");
-    page_navigation($galerie, $snimek, "next");
+    page_navigation($galerie, $picture, "prev");
+    page_navigation($galerie, $picture, "next");
     print "</div>\n"; //end image div
 
 
@@ -306,6 +306,6 @@ function render_photo($galerie, $snimek) {
 
     $picture->renderBigSize();
 
-    page_navigation($galerie, $snimek, null);
+    page_navigation($galerie, $picture, null);
 }
 ?>

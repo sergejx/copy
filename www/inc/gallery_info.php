@@ -168,5 +168,22 @@ class Photo {
 			print "</div>";
 		}
 	}
+
+    function has_prev() {
+        return $this->number > 1;
+    }
+
+    function has_next() {
+        $next = $this->number + 1;
+        return is_file("{$this->gallery->path}/mq/img-$next.jpg");
+    }
+
+    function get_prev() {
+        return $this->gallery->get_photo($this->number - 1);
+    }
+
+    function get_next() {
+        return $this->gallery->get_photo($this->number + 1);
+    }
 }
 ?>
