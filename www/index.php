@@ -7,6 +7,7 @@ require_once ("lib/lib.l10n.php");
 require_once("inc/config.inc.php");
 require_once("inc/page.php");
 require_once("inc/funkce.inc.php");
+require_once("inc/gallery_info.php");
 //session_name("navstevnik");
 //session_register("page");
 
@@ -35,13 +36,14 @@ if (!is_dir("$gallery_dir/$galerie/thumbs")) {
   $galerie = "";
 }
 
+$galleries = array();
 //read interesting stuff from info.txt
 if ($galerie) { 
-	readInfo("$root/$gallery_dir/$galerie/info.txt", $galerie);
-//check for restricted access
-	if ($galerielogin[$galerie]) {
-			 access_check($galerielogin[$galerie],$galeriepw[$galerie],$galerie);
-	}
+    $galleries[$galerie] = new Gallery("$root/$gallery_dir/$galerie/info.txt", $galerie);
+    //check for restricted access
+    if ($galleries[$galerie]->login) {
+        access_check($galleries[$galerie]->login,$galleries[$galerie]->pw,$galerie);
+    }
 }
 
 //START RENDERING
@@ -68,22 +70,18 @@ if (!$galerie) {
       if (is_dir("$gallery_dir/$file") && !ereg("\.", $file) && $file!="inc") { 
          // Use date file for gallery date if avaliable
 				 // info.txt format described in README
-         readInfo("$root/$gallery_dir/$file/info.txt", $file);
+         $galleries[$file] = new Gallery("$root/$gallery_dir/$file/info.txt", $file);
          
       }
    }
 
-	 if (!isset($galeriemonth)) $galeriemonth = array();
-   if (!isset($galerieday)) $galerieday = array();
-	 //sort within month depending on $sortinmonth
-	 if ($sortinmonth) {
-		 //alphabetically
-		 ksort($galeriemonth);
-		 reset($galeriemonth);
-	 } else {//by date
-		 arsort($galerieday);
-		 reset($galerieday);
-	 }
+    //sort within month depending on $sortinmonth
+    if ($sortinmonth) { //alphabetically
+        ksort($galleries);
+    } else {//by date
+        uasort($galleries, 'cmp_galleries_by_day');
+    }
+    reset($galleries);
 
 
 	 $thisyear = 0;
@@ -91,12 +89,11 @@ if (!$galerie) {
    for ($i = $yearto; $i >= $yearsince; $i--) {
       for ($thismonth=12; $thismonth>0; $thismonth--) { // go year by year, month by month
 																												// down
-				 foreach ($galerieday as $foldername => $day) { //using $galerieday (for when sorted)
-						if ($galeriemonth["$foldername"] == $thismonth && 
-							      $galerieyear["$foldername"] == $i) { //such Y/M exists
+            foreach ($galleries as $foldername => $info) { //using $galerieday (for when sorted)
+                if ($info->month == $thismonth && $info->year == $i) { //such Y/M exists
 
-								$galerieyearordered["$foldername"]=$galerieyear["$foldername"];
-								$galeriemonthordered["$foldername"]=$galeriemonth["$foldername"];
+                    $galerieyearordered["$foldername"]=$info->year;
+                    $galeriemonthordered["$foldername"]=$info->month;
 						}
 				 }
       }
@@ -117,7 +114,7 @@ if (!$galerie) {
 				 print "<div class=\"year\"><h3>$year</h3>\n";
 				 print "";
 			}
-			$month=$galeriemonth["$foldername"];
+			$month=$galleries["$foldername"]->month;
 			# now months
 			if (@$thismonth!=$month) {
 				 #first one
@@ -129,29 +126,29 @@ if (!$galerie) {
 				 print "   <div class=\"month\"><h4>$monthname</h4>\n";
 			}
 			#galleries within month	
-			if ($galerielogin[$foldername]) {
+			if ($galleries[$foldername]->login) {
 				print "      <p class=\"restricted\"><a ";
 			} else {
 				print "      <p><a ";
 			}
-			if (@$galeriename[$foldername]) {
+			if (@$galleries[$foldername]->name) {
 				print " href=\"$ThisScript?galerie=$foldername\">";
-				print $galeriename[$foldername];
+				print $galleries[$foldername]->name;
 				print "</a>";
 			} else {
 				print " href=\"$ThisScript?galerie=$foldername\">$foldername</a>";
 			}
-			if (@$galeriedesc[$foldername]) {
-				print "<span class=\"desc\">" . $galeriedesc[$foldername];
+			if (@$galleries[$foldername]->desc) {
+				print "<span class=\"desc\">" . $galleries[$foldername]->desc;
 				print "</span>\n";
 			}
-			if (@$galerieauthor[$foldername]) {
-				print "<span class=\"author\">by&nbsp;" . $galerieauthor[$foldername];
+			if (@$galleries[$foldername]->author) {
+				print "<span class=\"author\">by&nbsp;" . $galleries[$foldername]->author;
 				print "</span>\n";
 			}
-			if (@$galerieday[$foldername]) {
+			if (@$galleries[$foldername]->day) {
 				print "<span class=\"date\">";
-				print "$monthname&nbsp;" . $galerieday[$foldername];
+				print "$monthname&nbsp;" . $galleries[$foldername]->day;
 				print "</span>\n";
 			}
 			print "</p>\n";
@@ -168,8 +165,8 @@ if (!$galerie) {
    # finish off navigation header
 	 
    print "\n &gt; ";
-	 if ($galeriename[$galerie]) {
-		 print $galeriename[$galerie];
+	 if ($galleries[$galerie]->name) {
+		 print $galleries[$galerie]->name;
 	 } else {
 		 print $galerie;
 	 }
@@ -224,15 +221,15 @@ if (!$galerie) {
 
 	 //info
 	 print "<div id=\"info\">\n";
-	 if ($galeriedesc[$galerie]) {
+	 if ($galleries[$galerie]->desc) {
 		 print "<p>";
 		 print "<span class=\"value\">";
-		 print $galeriedesc[$galerie] . "</span></p>\n";
+		 print $galleries[$galerie]->desc . "</span></p>\n";
 	 }
-	 if ($galerieauthor[$galerie]) {
+	 if ($galleries[$galerie]->author) {
 		 print "<p><span class=\"key\">Author: </span>";
 		 print "<span class=\"value\">";
-		 print $galerieauthor[$galerie] . "</span></p>\n";
+		 print $galleries[$galerie]->author . "</span></p>\n";
 	 }
 	 print "</div>\n";
 
@@ -258,8 +255,8 @@ if (!$galerie) {
 } else { //low-res image
    # finish off header
    print "\n &gt; <a href=\"$ThisScript?galerie=$galerie\">";
-	 if ($galeriename[$galerie]) {
-		 print $galeriename[$galerie];
+	 if ($galleries[$galerie]->name) {
+		 print $galleries[$galerie]->name;
 	 } else {
 		 print $galerie;
 	 }
@@ -277,7 +274,7 @@ if (!$galerie) {
    }
 	 
 	 if (!isset($picture)) { //picture may have been created if commentform submitted
-	    require_once("$root/inc/photo.class.inc.php");
+	    require_once("$root/inc/gallery_info.php");
 	    $picture = new C_photo($file, $snimek);
 	 }
 

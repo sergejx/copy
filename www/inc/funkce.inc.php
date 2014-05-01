@@ -12,67 +12,6 @@ function check($file) {
    }
 }
 
-function infoParse ($infofile) {
-	
-	$info_array = file($infofile);
-	foreach ($info_array as $line) {
-		list($key,$value) = split("\|",$line);
-		$result[$key]=$value;
-	}
-	return $result;
-}
-
-function readInfo ($infofile, $file) {
-	global $galerieyear, $galeriemonth, $galerieday, $galeriedesc, $galerieauthor,
-	       $galeriename, $galerielogin, $galeriepw, $gallery_dir;
-	
-	if (file_exists($infofile)) {
-		//read from info.txt
-		$info_array = infoParse($infofile);
-		if ($info_array["date"]) {
-			// try to be a little smarter about format
-			if (ereg("([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})",
-				$info_array["date"])) {
-				// remain compatible - DD.MM.YYYY
-				list($day,$month,$year) = split("\.", $info_array["date"]);
-				$year = rtrim($year);
-				$month = rtrim($month);
-				$day = rtrim($day);
-				$info_array["date"] = "$year-$month-$day"; //make it US date
-			}
-			// US date format at this point
-			$tstamp = strtotime($info_array["date"]);
-		} else {
-			$tstamp = filemtime("$gallery_dir/$file");// Get from filesystem
-		}
-		$galerieyear["$file"] = date("Y", $tstamp);
-		$galeriemonth["$file"] = date("m", $tstamp);
-		$galerieday["$file"] = date("d", $tstamp);
-		
-		if (@$info_array["description"]) {
-			$galeriedesc["$file"] = rtrim($info_array["description"]);
-		}
-		
-		if (@$info_array["author"]) {
-			$galerieauthor["$file"] = rtrim($info_array["author"]);
-		}
-		
-		if (@$info_array["name"]) {
-			$galeriename["$file"] = rtrim($info_array["name"]);
-		}
-		
-		if (@$info_array["restricted_user"]) {
-			$galerielogin["$file"] = rtrim($info_array["restricted_user"]);
-			$galeriepw["$file"] = rtrim($info_array["restricted_password"]);
-		}
- } else { // Get Dates from modification stamp
-		$mtime = filemtime("$gallery_dir/$file");
-		$galerieyear["$file"] = date("Y", $mtime);
-		$galeriemonth["$file"] = date("m", $mtime); //F
-		$galerieday["$file"] = date("d", $mtime);
- }
-}
-
 function access_check($login, $password,$realm) {
    if (!($_SERVER['PHP_AUTH_USER']=="$login" && $_SERVER['PHP_AUTH_PW']=="$password")) {
       header("WWW-authenticate: Basic Realm=$realm");

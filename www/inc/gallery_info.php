@@ -1,4 +1,72 @@
 <?php
+class Gallery {
+    var $year, $month, $day;
+    var $desc, $author, $name;
+    var $login, $pw;
+
+    function __construct($infofile, $file) {
+        global $gallery_dir;
+        if (file_exists($infofile)) {
+            //read from info.txt
+            $info_array = $this->infoParse($infofile);
+            if ($info_array["date"]) {
+                // try to be a little smarter about format
+                if (ereg("([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})",
+                    $info_array["date"])) {
+                        // remain compatible - DD.MM.YYYY
+                        list($day,$month,$year) = split("\.", $info_array["date"]);
+                        $year = rtrim($year);
+                        $month = rtrim($month);
+                        $day = rtrim($day);
+                        $info_array["date"] = "$year-$month-$day"; //make it US date
+                    }
+                // US date format at this point
+                $tstamp = strtotime($info_array["date"]);
+            } else {
+                $tstamp = filemtime("$gallery_dir/$file");// Get from filesystem
+            }
+            $this->year = date("Y", $tstamp);
+            $this->month = date("m", $tstamp);
+            $this->day = date("d", $tstamp);
+
+            if (@$info_array["description"]) {
+                $this->desc = rtrim($info_array["description"]);
+            }
+
+            if (@$info_array["author"]) {
+                $this->author = rtrim($info_array["author"]);
+            }
+
+            if (@$info_array["name"]) {
+                $this->name = rtrim($info_array["name"]);
+            }
+
+            if (@$info_array["restricted_user"]) {
+                $this->login = rtrim($info_array["restricted_user"]);
+                $this->pw = rtrim($info_array["restricted_password"]);
+            }
+        } else { // Get Dates from modification stamp
+            $mtime = filemtime("$gallery_dir/$file");
+            $this->year = date("Y", $mtime);
+            $this->month = date("m", $mtime); //F
+            $this->day = date("d", $mtime);
+        }
+    }
+    
+    function infoParse ($infofile) {
+        $info_array = file($infofile);
+        foreach ($info_array as $line) {
+            list($key,$value) = split("\|",$line);
+            $result[$key]=$value;
+        }
+        return $result;
+    }
+}
+
+function cmp_galleries_by_day($g1, $g2) {
+    return - strcmp($g1->day, $g2->day);
+}
+
 /* Photo class for dealing with individual images
 
 */
