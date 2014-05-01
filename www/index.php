@@ -29,10 +29,6 @@ $snimek = 0;
 if (isset($_GET["snimek"])) $snimek=$_GET["snimek"];
 if (isset($_GET["photo"])) $snimek=$_GET["photo"];
 $snimek = intval($snimek);
-$y='';
-if (isset($_GET['y'])) $y=$_GET["y"];
-$cmnt='';
-if (isset($_GET["cmnt"])) $cmnt=$_GET["cmnt"];
 
 
 if (!is_dir("$gallery_dir/$galerie/thumbs")) {
