@@ -46,19 +46,31 @@ if ($galerie) {
     }
 }
 
-//START RENDERING
-
-
+// START RENDERING
 page_header("Photos");
 
 // folder > tree
 //print "<div class=\"navigation\"><a href=\"$ThisScript\">" . $scnamegallery . "</a>";
 print "<div class=\"navigation\"><a href=\"./\">" . $scnamegallery . "</a>";
 
+// Main dispatch
+if (!$galerie) {
+    render_index($adr);
+} elseif (!$snimek) {
+    render_gallery($galerie);
+} else {
+    render_photo($galerie, $snimek);
+}
+
+page_footer();
+// STOP RENDERING
+
+
 #############################
 # 	Overall Gallery Index		#
 #############################
-if (!$galerie) {
+function render_index($adr) {
+    global $root, $gallery_dir, $yearsince, $sortinmonth;
    # finish off navigation bar
    print "</div>\n\n<!-- listing galleries-->\n\n";  
 	 # I've nuked date.txt to replace it with a more generic info.txt
@@ -156,12 +168,14 @@ if (!$galerie) {
 			$thismonth=$month;
 	 }
 	 if ($one_out) print ("   </div>\n</div>\n\n");
-   
+}
+
+
 ##############################
 #  Individual Gallery Index  #
 ##############################
-} elseif (!$snimek) {
-	 
+function render_gallery($galerie) {
+    global $ThisScript, $root, $gallery_dir, $galleries;
    # finish off navigation header
 	 
    print "\n &gt; ";
@@ -248,11 +262,14 @@ if (!$galerie) {
       print "[ <a href=\"$gallery_dir/$galerie/zip/hq.tar.bz2\">" . __('HQ images tarball') . "</a> ]";
    }
    print "</p>";
+}
+
 
 #######################
 # 	Individual Image	#
 #######################
-} else { //low-res image
+function render_photo($galerie, $snimek) {
+    global $ThisScript, $root, $gallery_dir, $exif_show, $galleries;
    # finish off header
    print "\n &gt; <a href=\"$ThisScript?galerie=$galerie\">";
 	 if ($galleries[$galerie]->name) {
@@ -341,6 +358,4 @@ if (!$galerie) {
 
    page_navigation($galerie, $snimek, null);
 }
-
-page_footer();
 ?>
