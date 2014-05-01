@@ -287,47 +287,7 @@ function render_photo($galerie, $snimek) {
         $picture = new C_photo($file, $snimek);
     }
 
-    // mini thumbnail roll
-    print "\n<!--mini thumbnail roll-->\n<div class=\"thumbroll\">";
-    $start = $snimek - 3;
-    $stop = $snimek + 3;
-    $total = count($imgfiles->items);
-    if ($snimek < 4)
-        $stop = 7;
-    if ($snimek > ($total - 4)) {
-        $start = $total - 6;
-    }
-    while ($thumbfile = $imgfiles->read()) {
-        if ( eregi("^img-([0-9]+)\.(png|jpe?g)", $thumbfile, $x)) {
-            if ($x[1] < $start || $x[1] > $stop)
-                continue;
-            $thumb = "$gallery_dir/$galerie/thumbs/img-${x[1]}.${x[2]}";
-            print "   <a href=\"$ThisScript?galerie=$galerie&amp;photo=${x[1]}\"";
-            print " title=" . get_photo_title($galerie, $x[1]);
-            if ($x[1] == $snimek)
-                print " class='current'";
-            print ">";
-            print "<img class=\"thumb\" ";
-            $minithumb=getimagesize("$root/$thumb");
-            $h=60;
-            $ratio = $minithumb[1]/60;
-            $w=$minithumb[0]/$ratio;
-
-            print " width=\"$w\" height=\"$h\"";
-            print " src=\"$thumb\" ";
-            print "alt=\"photo No. ${x[1]}\" />";
-            print "</a> \n";
-        }
-    }
-    if (file_exists("$gallery_dir/$galerie/zip/hq.zip")) {
-        print "<a id=\"zip\" href=\"$gallery_dir/$galerie/zip/hq.zip\">";
-        print "zip<span /></a>";
-    }
-    if (file_exists("$gallery_dir/$galerie/zip/hq.tar.bz2")) {
-        print "<a id=\"zip\" href=\"$gallery_dir/$galerie/zip/hq.tar.bz2\">";
-        print "zip<span /></a>";
-    }
-    print "</div>\n";
+    thumb_roll($galerie, $snimek, $imgfiles);
 
     /* main image + navigation (prev/next) */
 
