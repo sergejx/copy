@@ -1,11 +1,17 @@
 <?php
 class Gallery {
+    var $id;
     var $year, $month, $day;
     var $desc, $author, $name;
     var $login, $pw;
+    var $path, $full_path;
 
-    function __construct($infofile, $file) {
-        global $gallery_dir;
+    function __construct($id) {
+        global $root, $gallery_dir;
+        $this->id = $id;
+        $this->path = "$gallery_dir/$id";
+        $this->full_path = "$root/{$this->path}";
+        $infofile = "{$this->full_path}/info.txt";
         if (file_exists($infofile)) {
             //read from info.txt
             $info_array = $this->infoParse($infofile);
@@ -23,7 +29,7 @@ class Gallery {
                 // US date format at this point
                 $tstamp = strtotime($info_array["date"]);
             } else {
-                $tstamp = filemtime("$gallery_dir/$file");// Get from filesystem
+                $tstamp = filemtime("$gallery_dir/$id");// Get from filesystem
             }
             $this->year = date("Y", $tstamp);
             $this->month = date("m", $tstamp);
@@ -46,7 +52,7 @@ class Gallery {
                 $this->pw = rtrim($info_array["restricted_password"]);
             }
         } else { // Get Dates from modification stamp
-            $mtime = filemtime("$gallery_dir/$file");
+            $mtime = filemtime("$gallery_dir/$id");
             $this->year = date("Y", $mtime);
             $this->month = date("m", $mtime); //F
             $this->day = date("d", $mtime);
@@ -61,6 +67,11 @@ class Gallery {
         }
         return $result;
     }
+    
+    function get_photo($number) {
+        $file = "img-$number.jpg";
+        return new Photo($this, $file, $number);
+    }
 }
 
 function cmp_galleries_by_day($g1, $g2) {
@@ -68,10 +79,9 @@ function cmp_galleries_by_day($g1, $g2) {
 }
 
 /* Photo class for dealing with individual images
-
 */
 
-class C_photo {
+class Photo {
 	var $id;
 	var $preview;
 	var $previewsize;
@@ -81,35 +91,30 @@ class C_photo {
 	var $caption;
 	var $file;
 	var $number;
-	var $album;
+    var $gallery;
 
-	function C_photo($file, $number) {
-		global $root, $gallery_dir, $galerie;
-		
+    function __construct($gallery, $file, $number) {
 		$this->file = $file;
 		$this->number = $number;
-		$this->album = $galerie;
+        $this->gallery = $gallery;
 		//init from filesystem
 		//preview
-		$this->preview = "$gallery_dir/$galerie/mq/img-" . $this->number . ".jpg";
+        $this->preview = "{$gallery->path}/mq/img-" . $this->number . ".jpg";
 		$this->previewsize = getimagesize($this->preview);
 		//MQ
-		if (file_exists("$root/$gallery_dir/$galerie/mq/img-" . $this->number . ".jpg")) {
-			$this->mq = "$gallery_dir/$galerie/mq/img-" . $this->number . ".jpg";
+        if (file_exists("{$gallery->path}/mq/img-" . $this->number . ".jpg")) {
+            $this->mq = "{$gallery->path}/mq/img-" . $this->number . ".jpg";
 		}
 		//HQ
-		if (file_exists("$root/$gallery_dir/$galerie/hq/img-" . $this->number . ".jpg")) {
-			$this->hq = "$gallery_dir/$galerie/hq/img-" . $this->number . ".jpg";
+        if (file_exists("{$gallery->path}/hq/img-" . $this->number . ".jpg")) {
+            $this->hq = "{$gallery->path}/hq/img-" . $this->number . ".jpg";
 		}
 		$this->readCaption();
 	}
 
 	function readCaption() {
-		global $root, $gallery_dir, $galerie;
-		
-		 //we falback to filesystem
 		  $buffer = "";
-			$captionfile = "$root/$gallery_dir/$galerie/comments/" . $this->number . ".txt";
+        $captionfile = "{$this->gallery->full_path}/comments/" . $this->number . ".txt";
 			$fh = @fopen($captionfile, "r");
 			if ($fh) {
 				 while (!feof($fh)) {
@@ -150,7 +155,7 @@ class C_photo {
                                                                  // because of tall 
                                                                  // images
 
-   print "<img id=\"preview\" " . $this->previewsize[3] . " src=\"". $this->file;
+        print "<img id=\"preview\" " . $this->previewsize[3] . " src=\"". $this->preview;
 	 print "\" alt=\"$this->caption\" />\n";
 	}
 

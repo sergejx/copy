@@ -34,7 +34,7 @@ if (!is_dir("$gallery_dir/$galerie/thumbs")) {
 $galleries = array();
 //read interesting stuff from info.txt
 if ($galerie) {
-    $galleries[$galerie] = new Gallery("$root/$gallery_dir/$galerie/info.txt", $galerie);
+    $galleries[$galerie] = new Gallery($galerie);
     //check for restricted access
     if ($galleries[$galerie]->login) {
         access_check($galleries[$galerie]->login,$galleries[$galerie]->pw,$galerie);
@@ -77,7 +77,7 @@ function render_index($adr) {
         if (is_dir("$gallery_dir/$file") && !ereg("\.", $file) && $file!="inc") {
             // Use date file for gallery date if avaliable
             // info.txt format described in README
-            $galleries[$file] = new Gallery("$root/$gallery_dir/$file/info.txt", $file);
+            $galleries[$file] = new Gallery($file);
         }
     }
 
@@ -284,7 +284,7 @@ function render_photo($galerie, $snimek) {
 
     if (!isset($picture)) { //picture may have been created if commentform submitted
         require_once("$root/inc/gallery_info.php");
-        $picture = new C_photo($file, $snimek);
+        $picture = $galleries[$galerie]->get_photo($snimek);
     }
 
     thumb_roll($galerie, $snimek, $imgfiles);
