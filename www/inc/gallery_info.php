@@ -5,10 +5,12 @@ class Gallery {
     var $desc, $author, $name;
     var $login, $pw;
     var $path;
+    var $url;
 
     function __construct($id) {
-        global $gallery_dir;
+        global $ThisScript, $gallery_dir;
         $this->id = $id;
+        $this->url = "$ThisScript?gallery=$id";
         $this->path = "$gallery_dir/$id";
         $infofile = "{$this->path}/info.txt";
         if (file_exists($infofile)) {
@@ -91,11 +93,13 @@ class Photo {
 	var $file;
 	var $number;
     var $gallery;
+    var $url;
 
     function __construct($gallery, $file, $number) {
 		$this->file = $file;
 		$this->number = $number;
         $this->gallery = $gallery;
+        $this->url = "{$gallery->url}&amp;photo=$number";
 		//init from filesystem
 		//preview
         $this->preview = "{$gallery->path}/mq/img-" . $this->number . ".jpg";
