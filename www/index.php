@@ -47,7 +47,10 @@ if ($galerie) {
 }
 
 // START RENDERING
-page_header("Photos");
+if ($snimek && $galerie)
+    page_header("Photo", $galleries[$galerie]->get_photo($snimek));
+else
+    page_header("Photos");
 
 // folder > tree
 //print "<div class=\"navigation\"><a href=\"$ThisScript\">" . $scnamegallery . "</a>";

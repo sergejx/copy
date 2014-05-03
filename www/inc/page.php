@@ -1,6 +1,6 @@
 <?php
-function page_header($title) {
-    global $gallery_dir, $snimek, $galerie, $ThisScript, $theme;
+function page_header($title, $photo=null) {
+    global $ThisScript, $theme;
 
     header("Content-Type: text/html; charset=utf-8");// make sure we send in utf8
 ?>
@@ -21,7 +21,7 @@ function page_header($title) {
 
 <link rel="icon" href="stock_camera-16.png" type="image/png">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<?php if ($snimek && $galerie) sequence_links($galerie, $snimek); ?>
+<?php if ($photo) sequence_links($photo); ?>
 <link type="text/css" rel="stylesheet" href="<?php echo $theme; ?>" media="screen">
      
 <script src="inc/global.js" type="text/javascript"></script>
@@ -47,20 +47,14 @@ function page_footer() {
 }
 
 
-function sequence_links($gallery, $snapshot) {
-    global $gallery_dir, $ThisScript;
-    $prev = $snapshot - 1;
-    $next = $snapshot + 1;
-    if ($snapshot > 1) {
-        echo "<link rel=\"prev\" ";
-        echo "href=\"$ThisScript?galerie=$gallery&amp;photo=$prev\">\n";
+function sequence_links($photo) {
+    if ($photo->has_prev()) {
+        echo "<link rel=\"prev\" href=\"{$photo->get_prev()->url}\">\n";
     }
-    if (is_file("$gallery_dir/$gallery/lq/img-$next.jpg")) {
+    if ($photo->has_next()) {
         // Prefetch next page and image
-        echo "<link rel=\"next prefetch\" ";
-        echo "href=\"$ThisScript?galerie=$gallery&amp;photo=$next\">\n";
-        echo "<link rel=\"prefetch\" ";
-        echo "href=\"${ThisScript}galleries/$gallery/mq/img-$next.jpg\">\n";
+        echo "<link rel=\"next prefetch\" href=\"{$photo->get_next()->url}\">\n";
+        echo "<link rel=\"prefetch\" href=\"{$photo->get_next()->preview}\">\n";
     }
 }
 
