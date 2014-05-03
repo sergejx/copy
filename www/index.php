@@ -16,6 +16,8 @@ require_once("inc/photo.inc.php");
 l10n_set("$root/l10n/".$sclang."/main.lang");
 l10n_set("$root/l10n/".$sclang."/date.lang");
 
+$ThisScript = str_replace('index.php', '', 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']);
+
 # always get sorted directory entries
 $adr = new SortDir("$gallery_dir");
 
