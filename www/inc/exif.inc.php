@@ -57,7 +57,7 @@ function formatEXIF ($k,$v) {
 
 // Only use php4 internal handling now.
 // $file is LQ image
-$exif_array = exif_read_data("$file");
+$exif_array = exif_read_data($picture->preview);
 reset($exif_array);
 if ($exif_show) reset($exif_show);
 

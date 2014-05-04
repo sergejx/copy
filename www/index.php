@@ -10,7 +10,6 @@ require_once("inc/funkce.inc.php");
 require_once("inc/gallery_info.php");
 require_once("inc/index.inc.php");
 require_once("inc/gallery.inc.php");
-require_once("inc/photo.inc.php");
 
 #set the language translation
 l10n_set("$root/l10n/".$sclang."/main.lang");
@@ -62,7 +61,14 @@ if (!$galerie) {
 } elseif (!$snimek) {
     render_gallery($galerie);
 } else {
-    render_photo($galerie, $snimek);
+    try {
+        $gallery = new Gallery($galerie);
+        $photo = $gallery->get_photo($snimek);
+        require_once("inc/photo.inc.php");
+        render_photo($gallery, $photo);
+    } catch (DomainException $e) {
+        echo "</div>".$e->getMessage();
+    }
 }
 
 page_footer();

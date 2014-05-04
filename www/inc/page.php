@@ -73,7 +73,7 @@ class SortDir {
       }
       closedir($handle);
 	    if ($this->items) {
-         natsort($this->items);
+            sort($this->items, SORT_NATURAL);
 	    }
    }
 

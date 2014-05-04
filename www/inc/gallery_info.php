@@ -6,12 +6,15 @@ class Gallery {
     var $login, $pw;
     var $path;
     var $url;
+    var $photos;
 
     function __construct($id) {
         global $ThisScript, $gallery_dir;
         $this->id = $id;
         $this->url = "$ThisScript?gallery=$id";
         $this->path = "$gallery_dir/$id";
+        if (!file_exists($this->path))
+            throw new DomainException(__("No such gallery"));
         $infofile = "{$this->path}/info.txt";
         if (file_exists($infofile)) {
             //read from info.txt
@@ -58,6 +61,14 @@ class Gallery {
             $this->month = date("m", $mtime); //F
             $this->day = date("d", $mtime);
         }
+        // Read list of photos
+        $path = "{$this->path}/thumbs";
+        $imgfiles = new SortDir("$path");
+        $this->photos = array();
+        foreach ($imgfiles->items as $i => $filename) {
+            $number = $i+1;
+            $this->photos[$number] = new Photo($this, $filename, $number);
+        }
     }
     
     function infoParse ($infofile) {
@@ -70,8 +81,7 @@ class Gallery {
     }
     
     function get_photo($number) {
-        $file = "img-$number.jpg";
-        return new Photo($this, $file, $number);
+        return $this->photos[$number];
     }
 }
 
@@ -88,6 +98,7 @@ class Photo {
 	var $previewsize;
 	var $mq;
 	var $hq;
+    var $thumbnail;
 	var $name;
 	var $caption;
 	var $file;
@@ -103,6 +114,9 @@ class Photo {
 		//init from filesystem
 		//preview
         $this->preview = "{$gallery->path}/mq/img-" . $this->number . ".jpg";
+        if (!file_exists($this->preview))
+            throw new DomainException(__('No such image'));
+        $this->thumbnail = "{$gallery->path}/thumbs/img-" . $this->number . ".jpg";
 		$this->previewsize = getimagesize($this->preview);
 		//MQ
         if (file_exists("{$gallery->path}/mq/img-" . $this->number . ".jpg")) {

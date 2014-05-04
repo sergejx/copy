@@ -2,56 +2,36 @@
 #######################
 #   Individual Image  #
 #######################
-function render_photo($galerie, $snimek) {
-    global $ThisScript, $root, $gallery_dir, $exif_show, $galleries;
+function render_photo($gallery, $picture) {
+    global $exif_show;
     # finish off header
-    print "\n &gt; <a href=\"$ThisScript?galerie=$galerie\">";
-    if ($galleries[$galerie]->name) {
-        print $galleries[$galerie]->name;
+    print "\n &gt; <a href=\"{$gallery->url}\">";
+    if ($gallery->name) {
+        print $gallery->name;
     } else {
-        print $galerie;
+        print $gallery->id;
     }
     print "</a>\n &gt; Photo";
-    print " $snimek</div>";
-    $path = "$gallery_dir/$galerie/thumbs";
-    $imgfiles = new SortDir("$path");
-    check($galerie);
-    $path = "$gallery_dir/$galerie/mq";
-    $file = "$path/img-$snimek.jpg";
-    if (!file_exists($file)) {
-        print __('No such image');
-        page_footer();
-        exit;
-    }
+    print " {$picture->number}</div>";
 
-    if (!isset($picture)) { //picture may have been created if commentform submitted
-        require_once("$root/inc/gallery_info.php");
-        $picture = $galleries[$galerie]->get_photo($snimek);
-    }
-
-    thumb_roll($galerie, $snimek, $imgfiles);
+    thumb_roll($gallery, $picture->number);
 
     /* main image + navigation (prev/next) */
-
     $picture->renderPreview();
-    page_navigation($galerie, $picture, "prev");
-    page_navigation($galerie, $picture, "next");
+    page_navigation($picture, "prev");
+    page_navigation($picture, "next");
     print "</div>\n"; //end image div
 
+    if (function_exists('exif_read_data')) require("exif.inc.php");
 
-
-    if (function_exists('exif_read_data')) require("$root/inc/exif.inc.php");
-    /* Image comment
-       really poor naming here, it is caption.
-    */
     $picture->renderCaption();
 
     $picture->renderBigSize();
 
-    page_navigation($galerie, $picture, null);
+    page_navigation($picture, null);
 }
 
-function page_navigation($gallery, $photo, $image) {
+function page_navigation($photo, $image) {
     if (!$image) { // this will render a navigation bar - max 3 buttons
         echo "\n<div class=\"navbuttons\">\n";
         echo "<div class=\"navbuttonsshell\">\n";
@@ -87,39 +67,35 @@ function page_navigation($gallery, $photo, $image) {
 
 
 /** Mini thumbnail roll */
-function thumb_roll($galerie, $snimek, $imgfiles) {
-    global $ThisScript, $root, $gallery_dir;
-
+function thumb_roll($gallery, $snimek) {
     print "\n<!--mini thumbnail roll-->\n<div class=\"thumbroll\">";
     $start = $snimek - 3;
     $stop = $snimek + 3;
-    $total = count($imgfiles->items);
+    $total = count($gallery->photos);
     if ($snimek < 4)
         $stop = 7;
     if ($snimek > ($total - 4)) {
         $start = $total - 6;
     }
-    while ($thumbfile = $imgfiles->read()) {
-        if ( eregi("^img-([0-9]+)\.(png|jpe?g)", $thumbfile, $x)) {
-            if ($x[1] < $start || $x[1] > $stop)
+    foreach ($gallery->photos as $num => $photo) {
+            if ($num < $start || $num > $stop)
                 continue;
-            $thumb = "$gallery_dir/$galerie/thumbs/img-${x[1]}.${x[2]}";
-            print "   <a href=\"$ThisScript?galerie=$galerie&amp;photo=${x[1]}\"";
-            print " title=" . get_photo_title($galerie, $x[1]);
-            if ($x[1] == $snimek)
+            $thumb = $photo->thumbnail;
+            print "   <a href=\"{$photo->url}\"";
+            print " title=\"".get_photo_title($photo->gallery->id, $photo->number).'"';
+            if ($num == $snimek)
                 print " class='current'";
             print ">";
             print "<img class=\"thumb\" ";
-            $minithumb=getimagesize("$root/$thumb");
+            $minithumb=getimagesize($photo->thumbnail);
             $h=60;
             $ratio = $minithumb[1]/60;
             $w=$minithumb[0]/$ratio;
 
             print " width=\"$w\" height=\"$h\"";
             print " src=\"$thumb\" ";
-            print "alt=\"photo No. ${x[1]}\" />";
+            print "alt=\"photo No. $num\">";
             print "</a> \n";
-        }
     }
     print "</div>\n";
 }
