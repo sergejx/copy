@@ -25,15 +25,9 @@ function render_gallery($gallery) {
             //portraits need a special class for styling
             $class = "portrait";
         }
-        if (file_exists("$gallery_dir/$gallery->id/comments/$num.txt") &&
-            $title = file_get_contents("$gallery_dir/$gallery->id/comments/$num.txt")) {
-            $title = ereg_replace("(\"|\')","",trim(strip_tags($title)));
-            $title = ereg_replace("(.{77}).*","\\1",$title);
-        } else
-            $title = "Photo $num";
 
         print "   <a href=\"{$photo->url}\"";
-        print " title=\"$title\"";
+        print " title=\"{$photo->name}\"";
         if ($class) print " class=\"$class\"";
         print ">";
         print "<img ";

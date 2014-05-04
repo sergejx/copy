@@ -81,8 +81,7 @@ function thumb_roll($gallery, $snimek) {
             if ($num < $start || $num > $stop)
                 continue;
             $thumb = $photo->thumbnail;
-            print "   <a href=\"{$photo->url}\"";
-            print " title=\"".get_photo_title($photo->gallery->id, $photo->number).'"';
+            print " <a href=\"{$photo->url}\" title=\"{$photo->name}\"";
             if ($num == $snimek)
                 print " class='current'";
             print ">";
