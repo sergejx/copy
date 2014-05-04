@@ -94,26 +94,6 @@ a#plus:hover {
    background: url("plus.png") top left no-repeat;
 }
 
-a#zip {
-   display: inline-block; 
-	 position: relative;
-	 width:16px; 
-   height:16px;
-	 margin:0px; padding:0px;
-   font-size: 9px;
-	 color: #2e3436;
-}
-
-a#zip span {
-   background: url("zip-inactive.png") top left no-repeat;
-	 position:absolute; left:0; top:0; z-index:1; 
-	 width:16px; height:16px;
-}
-
-a#zip:hover span {
-   background: url("zip.png") top left no-repeat;
-}
-
 .month p {
 	display: block;
 	width: 200px;
@@ -427,26 +407,6 @@ div#mqhq a:hover {
    background-color: #2e3436;
    border: 2px solid #ffb02f;
 	 color: #ffb02f;
-}
-
-p.archives {
-	padding-top: 20px;
-	font-size: 9pt;
-	color: #444;
-}
-
-p.archives a {
-	padding-left: 20px;
-  background: transparent url("zip-inactive.png") top left no-repeat;
-	text-decoration: none;
-	padding-bottom: 2px;
-	border-bottom: 1px dotted #df900f;
-	opacity: 0.5;
-}
-
-p.archives a:hover {
-  background: transparent url("zip.png") top left no-repeat;
-	opacity: 1;
 }
 
 .accesskey {

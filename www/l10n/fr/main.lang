@@ -1,15 +1,3 @@
-;zipped MQ images
-archive zip (MQ)
-
-;MQ images tarball
-archive tgz (MQ)
-
-;zipped HQ images
-archive zip (HQ)
-
-;HQ images tarball
-archive tgz (HQ)
-
 ;No such image
 Aucune image
 

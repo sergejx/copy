@@ -73,21 +73,5 @@ function render_gallery($galerie) {
         print $galleries[$galerie]->author . "</span></p>\n";
     }
     print "</div>\n";
-
-    //and links to archived images:
-    print "\n<p class=\"archives\">\n";
-    if (file_exists("$gallery_dir/$galerie/zip/mq.zip")) {
-        print "[ <a href=\"$gallery_dir/$galerie/zip/mq.zip\">" . __('zipped MQ images') . "</a> ] ";
-    }
-    if (file_exists("$gallery_dir/$galerie/zip/mq.tar.bz2")) {
-        print "[ <a href=\"$gallery_dir/$galerie/zip/mq.tar.bz2\">" . __('MQ images tarball') . "</a> ] ";
-    }
-    if (file_exists("$gallery_dir/$galerie/zip/hq.zip")) {
-        print "[ <a href=\"$gallery_dir/$galerie/zip/hq.zip\">" . __('zipped HQ images') . "</a> ]";
-    }
-    if (file_exists("$gallery_dir/$galerie/zip/hq.tar.bz2")) {
-        print "[ <a href=\"$gallery_dir/$galerie/zip/hq.tar.bz2\">" . __('HQ images tarball') . "</a> ]";
-    }
-    print "</p>";
 }
 

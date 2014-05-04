@@ -121,13 +121,5 @@ function thumb_roll($galerie, $snimek, $imgfiles) {
             print "</a> \n";
         }
     }
-    if (file_exists("$gallery_dir/$galerie/zip/hq.zip")) {
-        print "<a id=\"zip\" href=\"$gallery_dir/$galerie/zip/hq.zip\">";
-        print "zip<span /></a>";
-    }
-    if (file_exists("$gallery_dir/$galerie/zip/hq.tar.bz2")) {
-        print "<a id=\"zip\" href=\"$gallery_dir/$galerie/zip/hq.tar.bz2\">";
-        print "zip<span /></a>";
-    }
     print "</div>\n";
 }
