@@ -8,8 +8,6 @@ require_once("inc/config.inc.php");
 require_once("inc/page.php");
 require_once("inc/funkce.inc.php");
 require_once("inc/gallery_info.php");
-require_once("inc/index.inc.php");
-require_once("inc/gallery.inc.php");
 
 #set the language translation
 l10n_set("$root/l10n/".$sclang."/main.lang");
@@ -56,19 +54,22 @@ else
 print "<div class=\"navigation\"><a href=\"./\">" . $scnamegallery . "</a>";
 
 // Main dispatch
-if (!$galerie) {
-    render_index($adr);
-} elseif (!$snimek) {
-    render_gallery($galerie);
-} else {
-    try {
+try {
+    if (!$galerie) {
+        require_once("inc/index.inc.php");
+        render_index($adr);
+    } elseif (!$snimek) {
+        $gallery = new Gallery($galerie);
+        require_once("inc/gallery.inc.php");
+        render_gallery($gallery);
+    } else {
         $gallery = new Gallery($galerie);
         $photo = $gallery->get_photo($snimek);
         require_once("inc/photo.inc.php");
         render_photo($gallery, $photo);
-    } catch (DomainException $e) {
-        echo "</div>".$e->getMessage();
     }
+} catch (DomainException $e) {
+    echo "</div>".$e->getMessage();
 }
 
 page_footer();
