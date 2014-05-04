@@ -2,19 +2,14 @@
 #############################
 #   Overall Gallery Index    #
 #############################
-function render_index($adr) {
-    global $root, $gallery_dir, $yearsince, $sortinmonth;
+function render_index() {
+    global $gallery_dir, $yearsince, $sortinmonth;
     # finish off navigation bar
     print "</div>\n\n<!-- listing galleries-->\n\n";
-    # I've nuked date.txt to replace it with a more generic info.txt
-    # It optionally supplies i18n name, camera model, author and date
-    # TODO: imgconv script support
-    while ($file = $adr->Read()) {
-        // checking for inc is only really needed when gallery_dir == $root
-        // hopefully not many galleries will be named inc ;)
-        if (is_dir("$gallery_dir/$file") && !ereg("\.", $file) && $file!="inc") {
-            // Use date file for gallery date if avaliable
-            // info.txt format described in README
+
+    $adr = sorted_directory($gallery_dir);
+    foreach ($adr as $file) {
+        if (is_dir("$gallery_dir/$file") && !ereg("\.", $file)) {
             $galleries[$file] = new Gallery($file);
         }
     }

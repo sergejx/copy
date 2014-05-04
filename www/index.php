@@ -15,9 +15,6 @@ l10n_set("$root/l10n/".$sclang."/date.lang");
 
 $ThisScript = str_replace('index.php', '', 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']);
 
-# always get sorted directory entries
-$adr = new SortDir("$gallery_dir");
-
 # get variables passed in from the URL:
 $galerie='';
 if (isset($_GET['galerie'])) $galerie=$_GET["galerie"];
@@ -57,7 +54,7 @@ print "<div class=\"navigation\"><a href=\"./\">" . $scnamegallery . "</a>";
 try {
     if (!$galerie) {
         require_once("inc/index.inc.php");
-        render_index($adr);
+        render_index();
     } elseif (!$snimek) {
         $gallery = new Gallery($galerie);
         require_once("inc/gallery.inc.php");

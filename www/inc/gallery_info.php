@@ -1,4 +1,19 @@
 <?php
+function sorted_directory($directory) {
+    $items = array();
+    $handle=@opendir($directory);
+    if (!$handle) return;
+    while ($file = readdir($handle)) {
+        if ($file != "." && $file != "..") {
+            $items[]=$file;
+        }
+    }
+    closedir($handle);
+    sort($items, SORT_NATURAL);
+    return $items;
+}
+
+
 class Gallery {
     var $id;
     var $year, $month, $day;
@@ -61,14 +76,7 @@ class Gallery {
             $this->month = date("m", $mtime); //F
             $this->day = date("d", $mtime);
         }
-        // Read list of photos
-        $path = "{$this->path}/thumbs";
-        $imgfiles = new SortDir("$path");
-        $this->photos = array();
-        foreach ($imgfiles->items as $i => $filename) {
-            $number = $i+1;
-            $this->photos[$number] = new Photo($this, $filename, $number);
-        }
+        $this->read_photos();
     }
     
     function infoParse ($infofile) {
@@ -78,6 +86,16 @@ class Gallery {
             $result[$key]=$value;
         }
         return $result;
+    }
+    
+    private function read_photos() {
+        $path = "{$this->path}/thumbs";
+        $imgfiles = sorted_directory($path);
+        $this->photos = array();
+        foreach ($imgfiles as $i => $filename) {
+            $number = $i+1;
+            $this->photos[$number] = new Photo($this, $filename, $number);
+        }
     }
     
     function get_photo($number) {

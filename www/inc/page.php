@@ -57,33 +57,3 @@ function sequence_links($photo) {
         echo "<link rel=\"prefetch\" href=\"{$photo->get_next()->preview}\">\n";
     }
 }
-
-
-# return dirs sorted
-class SortDir {
-   var $items;
-
-   function SortDir($directory) {
-      $handle=@opendir($directory);
-			if (!$handle) return;
-      while ($file = readdir($handle)) {
-         if ($file != "." && $file != "..") {
-            $this->items[]=$file;
-         }
-      }
-      closedir($handle);
-	    if ($this->items) {
-            sort($this->items, SORT_NATURAL);
-	    }
-   }
-
-   function Read() {
-			if ($this->items) {
-				$getback= (pos($this->items));
-				next($this->items);
-				return $getback;
-			}
-   }
-}
-
-?>
