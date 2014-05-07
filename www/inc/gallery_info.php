@@ -210,8 +210,7 @@ class Photo {
     }
 
     function has_next() {
-        $next = $this->number + 1;
-        return is_file("{$this->gallery->path}/mq/img-$next.jpg");
+        return $this->number < count($this->gallery->photos);
     }
 
     function get_prev() {
