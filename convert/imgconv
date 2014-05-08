@@ -46,7 +46,6 @@ Usage : $1 [OPTIONS]... [FILE]...
 Convert FILEs
 
   -o, --output DIR           make gallery in DIR
-  -M, --mq                   include 1024x768 images (MQ)
   -H, --hq                   include original images (HQ)
   -Z, --archive              make archives
   -i, --interactive          edit gallery informations interactively
@@ -124,9 +123,6 @@ while true; do
 	-q|--quiet)
 	    verbose=false ; shift ;;
 
-	-M|--mq)
-	    mq=1 ;  shift ;;
-
 	-H|--hq)
 	    hq=1 ; shift ;;
 
@@ -160,8 +156,7 @@ fi
 
 # make dirs
 mkdir -p $dir/thumbs
-mkdir -p $dir/lq
-[ $mq -gt 0 ] && mkdir -p $dir/mq
+mkdir -p $dir/mq
 [ $hq -gt 0 ] && mkdir -p $dir/hq
 [ $zip -gt 0 ] && mkdir -p $dir/zip
 
@@ -223,15 +218,9 @@ for imagefile in $files; do
   $convertor -geometry 120x120 -modulate 100,140,100 -unsharp 1x20 \
       -quality 60 $extra_opts "$imagefile" $dir/thumbs/$basename
 
-  $verbose -n "."
-  $convertor -geometry 640x480 -modulate 100,130,100 -unsharp 1x5 \
-      -quality 90 "$imagefile" $dir/lq/$basename
-
-  if [ $mq -gt 0 ]; then
-      $verbose -n "."
-      $convertor -geometry 1024x768 -modulate 100,130,100 -unsharp 1x5 \
-	  -quality 80 "$imagefile" $dir/mq/$basename
-  fi
+    $verbose -n "."
+    $convertor -geometry 1024x768 -modulate 100,130,100 -unsharp 1x5 \
+    -quality 80 "$imagefile" $dir/mq/$basename
 
   if [ $hq -gt 0 ] ; then
       $verbose -n "."
@@ -250,8 +239,7 @@ done
 if [ $rotate -gt 0 ]; then
     $verbose "rotating"
     jhead -autorot $dir/thumbs/*.jpg
-    jhead -autorot $dir/lq/*.jpg
-    [ $mq ] && jhead -autorot $dir/mq/*.jpg
+    jhead -autorot $dir/mq/*.jpg
     [ $hq ] && jhead -autorot $dir/hq/*.jpg
 fi
 
