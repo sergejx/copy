@@ -161,77 +161,17 @@ fi
 # make dirs
 mkdir -p $dir/thumbs
 mkdir -p $dir/lq
-mkdir -p $dir/comments
-chmod o+w $dir/comments
 [ $mq -gt 0 ] && mkdir -p $dir/mq
 [ $hq -gt 0 ] && mkdir -p $dir/hq
 [ $zip -gt 0 ] && mkdir -p $dir/zip
 
-# Protect info.txt, even if we don't make it.
-echo "<Files info.txt>" > $dir/.htaccess
+# Protect info.yaml, even if we don't make it.
+echo "<Files info.yaml>" > $dir/.htaccess
 echo "        deny from all" >> $dir/.htaccess
 echo "</Files>" >> $dir/.htaccess
 
 
 $verbose "Generating O.R.I.G.I.N.A.L gallery in $dir"
-
-files=$(echo $@ | sed 's/ /\n/g' | sort)
-
-#files=$@
-
-i=1
-for imagefile in $files; do
-
-    good_file "$imagefile"
-    if [ $? != 0 ]; then
-	$verbose "$imagefile is not a JPG, JPEG or PNG file, skipped"
-	continue
-    fi
-
-  $verbose -n "converting $imagefile "
-
-  $verbose -n "."
-  $convertor -geometry 120x120 -modulate 100,140,100 -unsharp 1x20 \
-      -quality 60 $extra_opts "$imagefile" $dir/thumbs/img-$i.jpg
-
-  $verbose -n "."
-  $convertor -geometry 640x480 -modulate 100,130,100 -unsharp 1x5 \
-      -quality 90 "$imagefile" $dir/lq/img-$i.jpg
-
-  if [ $mq -gt 0 ]; then
-      $verbose -n "."
-      $convertor -geometry 1024x768 -modulate 100,130,100 -unsharp 1x5 \
-	  -quality 80 "$imagefile" $dir/mq/img-$i.jpg
-  fi
-
-  if [ $hq -gt 0 ] ; then
-      $verbose -n "."
-      cp "$imagefile" $dir/hq/img-$i.jpg
-  fi
-
-  # template for comment
-  echo "<span>Photo $i</span>" > $dir/comments/$i.txt
-
-
-  i=`expr $i + 1`
-  $verbose " done"
-done
-
-# auto-rotate stuff
-if [ $rotate -gt 0 ]; then
-    $verbose "rotating"
-    jhead -autorot $dir/thumbs/*.jpg
-    jhead -autorot $dir/lq/*.jpg
-    [ $mq ] && jhead -autorot $dir/mq/*.jpg
-    [ $hq ] && jhead -autorot $dir/hq/*.jpg
-fi
-
-# zip stuff
-if [ $zip -gt 0 ]; then
-    $verbose "archiving"
-    [ $mq ] && zip -R $dir/zip/mq.zip  $dir/mq/*.jpg
-    [ $hq ] && zip -R $dir/zip/hq.zip  $dir/hq/*.jpg
-fi
 
 #info.txt
 protect=n
@@ -254,9 +194,70 @@ if [ $interactive == 1 ]; then
     fi
 fi
 
-[ "$gal_name" != "" ] && echo "name|$gal_name" >> $dir/info.txt
-[ "$gal_auth" != "" ] && echo "author|$gal_auth" >> $dir/info.txt
-[ "$gal_date" != "" ] && echo "date|$gal_date" >> $dir/info.txt
-[ "$gal_desc" != "" ] && echo "description|$gal_desc" >> $dir/info.txt
-[ "$gal_user" != "" ] && echo "restricted_user|$gal_user" >> $dir/info.txt
-[ "$gal_pass" != "" ] && echo "restricted_password|$gal_pass" >> $dir/info.txt
+echo "---" >> $dir/info.yaml
+[ "$gal_name" != "" ] && echo "name: $gal_name" >> $dir/info.yaml
+[ "$gal_auth" != "" ] && echo "author: $gal_auth" >> $dir/info.yaml
+[ "$gal_date" != "" ] && echo "date: $gal_date" >> $dir/info.yaml
+[ "$gal_desc" != "" ] && echo "description: $gal_desc" >> $dir/info.yaml
+[ "$gal_user" != "" ] && echo "restricted_user: $gal_user" >> $dir/info.yaml
+[ "$gal_pass" != "" ] && echo "restricted_password: $gal_pass" >> $dir/info.yaml
+echo "---" >> $dir/info.yaml
+
+files=$(echo $@ | sed 's/ /\n/g' | sort)
+
+#files=$@
+
+i=1
+for imagefile in $files; do
+    basename=`basename $imagefile`
+
+    good_file "$imagefile"
+    if [ $? != 0 ]; then
+	$verbose "$imagefile is not a JPG, JPEG or PNG file, skipped"
+	continue
+    fi
+
+  $verbose -n "converting $imagefile "
+
+  $verbose -n "."
+  $convertor -geometry 120x120 -modulate 100,140,100 -unsharp 1x20 \
+      -quality 60 $extra_opts "$imagefile" $dir/thumbs/$basename
+
+  $verbose -n "."
+  $convertor -geometry 640x480 -modulate 100,130,100 -unsharp 1x5 \
+      -quality 90 "$imagefile" $dir/lq/$basename
+
+  if [ $mq -gt 0 ]; then
+      $verbose -n "."
+      $convertor -geometry 1024x768 -modulate 100,130,100 -unsharp 1x5 \
+	  -quality 80 "$imagefile" $dir/mq/$basename
+  fi
+
+  if [ $hq -gt 0 ] ; then
+      $verbose -n "."
+      cp "$imagefile" $dir/hq/$basename
+  fi
+
+  # template for comment
+  echo "$basename: Photo $i" >> $dir/info.yaml
+
+
+  i=`expr $i + 1`
+  $verbose " done"
+done
+
+# auto-rotate stuff
+if [ $rotate -gt 0 ]; then
+    $verbose "rotating"
+    jhead -autorot $dir/thumbs/*.jpg
+    jhead -autorot $dir/lq/*.jpg
+    [ $mq ] && jhead -autorot $dir/mq/*.jpg
+    [ $hq ] && jhead -autorot $dir/hq/*.jpg
+fi
+
+# zip stuff
+if [ $zip -gt 0 ]; then
+    $verbose "archiving"
+    [ $mq ] && zip -R $dir/zip/mq.zip  $dir/mq/*.jpg
+    [ $hq ] && zip -R $dir/zip/hq.zip  $dir/hq/*.jpg
+fi
