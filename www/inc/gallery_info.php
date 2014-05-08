@@ -36,7 +36,7 @@ class Gallery {
         //read from info.txt
         try {
             list($info_array, $photos) = $this->parse_info_file($infofile);
-            if ($info_array["date"]) {
+            if (isset($info_array["date"])) {
                 $tstamp = strtotime($info_array["date"]);
             } else {
                 $tstamp = filemtime($this->path); // Get from filesystem
