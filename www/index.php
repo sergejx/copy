@@ -2,6 +2,12 @@
 # uncomment this to check for uninitialized variables etc.:
 # error_reporting (E_ALL);
 
+# App info
+define('APP_NAME', "COPY"); // Customized Original^1, Potentially Yummy
+// ^1: Original: Opensource Remote Image Gallery, Initialy Not As Lovely
+define('APP_URL', "https://github.com/sergejx/copy");
+define('APP_VERSION', "0.13pre");
+
 #language support
 require_once ("lib/lib.l10n.php");
 require_once("inc/config.inc.php");
@@ -10,55 +16,57 @@ require_once("inc/funkce.inc.php");
 require_once("inc/gallery_info.php");
 
 #set the language translation
-l10n_set("$root/l10n/".$sclang."/main.lang");
-l10n_set("$root/l10n/".$sclang."/date.lang");
+l10n_set("l10n/".$sclang."/main.lang");
+l10n_set("l10n/".$sclang."/date.lang");
+l10n_set("l10n/".$GLOBALS['sclang']."/exif.lang");
 
-$ThisScript = str_replace('index.php', '', 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']);
+$ThisScript = str_replace('index.php', '',
+    'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']);
 
 # get variables passed in from the URL:
-$galerie='';
-if (isset($_GET['galerie'])) $galerie=$_GET["galerie"];
-if (isset($_GET['gallery'])) $galerie=$_GET["gallery"];
-$galerie = preg_replace('/\//', '', $galerie);
-$snimek = 0;
-if (isset($_GET["snimek"])) $snimek=$_GET["snimek"];
-if (isset($_GET["photo"])) $snimek=$_GET["photo"];
-$snimek = intval($snimek);
+$gallery_id = '';
+if (isset($_GET['gallery'])) $gallery_id=$_GET["gallery"];
+// Old name (for backward compatibility):
+if (isset($_GET['galerie'])) $gallery_id=$_GET["galerie"];
+$gallery_id = preg_replace('/\//', '', $gallery_id);
+$photo_id = 0;
+if (isset($_GET["photo"])) $photo_id=$_GET["photo"];
+// Old name (for backward compatibility):
+if (isset($_GET["snimek"])) $photo_id=$_GET["snimek"];
+$photo_id = intval($photo_id);
 
 
-if (!is_dir("$gallery_dir/$galerie/thumbs")) {
-    $galerie = "";
+if (!is_dir("$gallery_dir/$gallery_id/thumbs")) {
+    $gallery_id = "";
 }
 
-//read interesting stuff from info.txt
-if ($galerie) {
-    $gallery = new Gallery($galerie);
+//read interesting stuff from info.yaml
+if ($gallery_id) {
+    $gallery = new Gallery($gallery_id);
     //check for restricted access
     if ($gallery->login) {
-        access_check($gallery->login, $gallery->pw, $galerie);
+        access_check($gallery->login, $gallery->pw, $gallery_id);
     }
 }
 
 // START RENDERING
-if ($snimek && $galerie)
-    page_header("Photo", $gallery->get_photo($snimek));
+if ($photo_id && $gallery_id)
+    page_header("Photo", $gallery->get_photo($photo_id));
 else
     page_header("Photos");
 
-// folder > tree
-//print "<div class=\"navigation\"><a href=\"$ThisScript\">" . $scnamegallery . "</a>";
-print "<div class=\"navigation\"><a href=\"./\">" . $scnamegallery . "</a>";
+print "<div class=\"navigation\"><a href=\"$ThisScript\">" . $scnamegallery . "</a>";
 
 // Main dispatch
 try {
-    if (!$galerie) {
+    if (!$gallery_id) {
         require_once("inc/index.inc.php");
         render_index();
-    } elseif (!$snimek) {
+    } elseif (!$photo_id) {
         require_once("inc/gallery.inc.php");
         render_gallery($gallery);
     } else {
-        $photo = $gallery->get_photo($snimek);
+        $photo = $gallery->get_photo($photo_id);
         require_once("inc/photo.inc.php");
         render_photo($gallery, $photo);
     }
