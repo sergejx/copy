@@ -70,11 +70,11 @@ function render_index() {
             print "      <p><a ";
         }
         if (@$galleries[$foldername]->name) {
-            print " href=\"$ThisScript?galerie=$foldername\">";
+            print " href=\"{$galleries[$foldername]->url}\">";
             print $galleries[$foldername]->name;
             print "</a>";
         } else {
-            print " href=\"$ThisScript?galerie=$foldername\">$foldername</a>";
+            print " href=\"{$galleries[$foldername]->url}\">$foldername</a>";
         }
         if (@$galleries[$foldername]->desc) {
             print "<span class=\"desc\">" . $galleries[$foldername]->desc;
