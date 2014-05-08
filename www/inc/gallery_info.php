@@ -30,64 +30,91 @@ class Gallery {
         $this->path = "$gallery_dir/$id";
         if (!file_exists($this->path))
             throw new DomainException(__("No such gallery"));
-        $infofile = "{$this->path}/info.txt";
-        if (file_exists($infofile)) {
-            //read from info.txt
-            $info_array = $this->infoParse($infofile);
+        $infofile = "{$this->path}/info.yaml";
+        if (!file_exists($infofile))
+            throw new DomainException(__("No such gallery"));
+        //read from info.txt
+        try {
+            list($info_array, $photos) = $this->parse_info_file($infofile);
             if ($info_array["date"]) {
-                // try to be a little smarter about format
-                if (ereg("([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})",
-                    $info_array["date"])) {
-                        // remain compatible - DD.MM.YYYY
-                        list($day,$month,$year) = split("\.", $info_array["date"]);
-                        $year = rtrim($year);
-                        $month = rtrim($month);
-                        $day = rtrim($day);
-                        $info_array["date"] = "$year-$month-$day"; //make it US date
-                    }
-                // US date format at this point
                 $tstamp = strtotime($info_array["date"]);
             } else {
-                $tstamp = filemtime("$gallery_dir/$id");// Get from filesystem
+                $tstamp = filemtime($this->path); // Get from filesystem
             }
             $this->year = date("Y", $tstamp);
             $this->month = date("m", $tstamp);
             $this->day = date("d", $tstamp);
 
             if (@$info_array["description"]) {
-                $this->desc = rtrim($info_array["description"]);
+                $this->desc = $info_array["description"];
             }
 
             if (@$info_array["author"]) {
-                $this->author = rtrim($info_array["author"]);
+                $this->author = $info_array["author"];
             }
 
             if (@$info_array["name"]) {
-                $this->name = rtrim($info_array["name"]);
+                $this->name = $info_array["name"];
             }
 
             if (@$info_array["restricted_user"]) {
-                $this->login = rtrim($info_array["restricted_user"]);
-                $this->pw = rtrim($info_array["restricted_password"]);
+                $this->login = $info_array["restricted_user"];
+                $this->pw = $info_array["restricted_password"];
             }
-        } else { // Get Dates from modification stamp
-            $mtime = filemtime("$gallery_dir/$id");
-            $this->year = date("Y", $mtime);
-            $this->month = date("m", $mtime); //F
-            $this->day = date("d", $mtime);
+            $num = 0;
+            foreach ($photos as $img => $caption) {
+                $num++;
+                $this->photos[$num] = new Photo($this, $num, $img, $caption);
+            }
+        } catch (InfoFormatException $e) {
+            throw new DomainException("Corrupted gallery", 0, $e);
         }
-        $this->read_photos();
     }
     
-    function infoParse ($infofile) {
-        $info_array = file($infofile);
-        foreach ($info_array as $line) {
-            list($key,$value) = split("\|",$line);
-            $result[$key]=$value;
+    /* Info-file parser.
+     *
+     * File format is based on YAML and may be parseble by standard YAML parser.
+     * File must contain two YAML documents. The first one contains a associative
+     * array with gallery informations. The second document contains associative
+     * array with file names of photos as keys and their capitons as values.
+     */
+    private function parse_info_file($filename) {
+        $lines = file($filename);
+        $gallery = array();
+        $photos = array();
+        // States: 0 - before gallery info, 1 - gallery info, 2 - photos
+        $state = 0;
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (strlen($line) == 0)
+                continue;
+            if ($line[0] == '#')
+                continue; // Comment
+            if ($line == '---') {
+                $state++;
+                if ($state > 2)
+                    break; // Don't read more then 2 documents
+                continue;
+            }
+            if ($state == 0)
+                throw new InfoFormatException("Missing document start symbol (---)");
+            
+            list($key, $value) = explode(':', $line, 2);
+            $key = rtrim($key);
+            $value = ltrim($value);
+            
+            if ($state == 1) {
+                $gallery[$key] = $value;
+            } elseif ($state == 2) {
+                $photos[$key] = explode('|', $value);
+            } else {
+                throw new InfoFormatException("Unexpected error :-(");
+            }
+            
         }
-        return $result;
+        return array($gallery, $photos);
     }
-    
+
     private function read_photos() {
         $path = "{$this->path}/thumbs";
         $imgfiles = sorted_directory($path);
@@ -124,51 +151,31 @@ class Photo {
     var $gallery;
     var $url;
 
-    function __construct($gallery, $file, $number) {
-		$this->file = $file;
-		$this->number = $number;
+    function __construct($gallery, $number, $file, $caption) {
+        $this->file = $file;
+        $this->number = $number;
         $this->gallery = $gallery;
         $this->url = "{$gallery->url}&amp;photo=$number";
-		//init from filesystem
-		//preview
-        $this->preview = "{$gallery->path}/mq/img-" . $this->number . ".jpg";
+        //preview
+        $this->preview = "{$gallery->path}/mq/" . $this->file;
         if (!file_exists($this->preview))
             throw new DomainException(__('No such image'));
-        $this->thumbnail = "{$gallery->path}/thumbs/img-" . $this->number . ".jpg";
-		$this->previewsize = getimagesize($this->preview);
-		//MQ
-        if (file_exists("{$gallery->path}/mq/img-" . $this->number . ".jpg")) {
-            $this->mq = "{$gallery->path}/mq/img-" . $this->number . ".jpg";
-		}
-		//HQ
-        if (file_exists("{$gallery->path}/hq/img-" . $this->number . ".jpg")) {
-            $this->hq = "{$gallery->path}/hq/img-" . $this->number . ".jpg";
-		}
-		$this->readCaption();
-	}
+        $this->thumbnail = "{$gallery->path}/thumbs/" . $this->file;
+        $this->previewsize = getimagesize($this->preview);
+        //MQ
+        if (file_exists("{$gallery->path}/mq/" . $this->file)) {
+            $this->mq = "{$gallery->path}/mq/" . $this->file;
+        }
+        //HQ
+        if (file_exists("{$gallery->path}/hq/" . $this->file)) {
+            $this->hq = "{$gallery->path}/hq/" . $this->file;
+        }
 
-	function readCaption() {
-		  $buffer = "";
-        $captionfile = "{$this->gallery->path}/comments/" . $this->number . ".txt";
-			$fh = @fopen($captionfile, "r");
-			if ($fh) {
-				 while (!feof($fh)) {
-						 $buffer .= fgets($fh, 4096);
-				 }
-				 fclose($fh);
-			} else { // no caption file
-				$this->name = __("Photo ") . $this->number;
-				return;
-			}
-			//parse buffer
-			if(eregi("^<span>(.*)</span>( - )?(.*)", $buffer, $x)) {
-				$this->name = $x[1]; //mostly "Photo"
-				$this->caption = chop($x[3]);
-			} else {
-				$this->caption = $buffer;
-			}
-	}
-	
+        $this->name = $caption[0];
+        if (isset($caption[1]))
+            $this->caption = $caption[1];
+    }
+
 	function renderBigSize() {
 
    if ($this->mq || $this->hq) {
@@ -221,4 +228,7 @@ class Photo {
         return $this->gallery->get_photo($this->number + 1);
     }
 }
-?>
+
+
+class InfoFormatException extends Exception {
+}
