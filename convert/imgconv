@@ -10,9 +10,7 @@
 
 #default options
 dir=./web-gallery
-zip=0
 rotate=0
-mq=0
 hq=0
 interactive=0
 verbose=echo
@@ -34,9 +32,9 @@ extra_ops="-strip"
 name=`basename $0`
 
 # getopt stuff
-shortopts="a:hHin:d:D:Mqo:Zr"
+shortopts="a:hHin:d:D:qo:r"
 longopts="author:quiet,help,interactive,name:,date:,description:,\
-mq,hq,output:,archive,rotate"
+hq,output:,rotate"
 
 
 
@@ -47,7 +45,6 @@ Convert FILEs
 
   -o, --output DIR           make gallery in DIR
   -H, --hq                   include original images (HQ)
-  -Z, --archive              make archives
   -i, --interactive          edit gallery informations interactively
   -a, --author NAME          set author's name
   -n, --name NAME            set gallery's name
@@ -114,9 +111,6 @@ while true; do
 	-o|--output)
 	    dir=$2 ; shift 2 ;;
 
-	-Z|--zip)
-	    zip=1 ; shift ;;
-
 	-r|--rotate)
 	    rotate=1 ; shift ;;
 
@@ -158,7 +152,6 @@ fi
 mkdir -p $dir/thumbs
 mkdir -p $dir/mq
 [ $hq -gt 0 ] && mkdir -p $dir/hq
-[ $zip -gt 0 ] && mkdir -p $dir/zip
 
 # Protect info.yaml, even if we don't make it.
 echo "<Files info.yaml>" > $dir/.htaccess
@@ -243,9 +236,3 @@ if [ $rotate -gt 0 ]; then
     [ $hq ] && jhead -autorot $dir/hq/*.jpg
 fi
 
-# zip stuff
-if [ $zip -gt 0 ]; then
-    $verbose "archiving"
-    [ $mq ] && zip -R $dir/zip/mq.zip  $dir/mq/*.jpg
-    [ $hq ] && zip -R $dir/zip/hq.zip  $dir/hq/*.jpg
-fi
