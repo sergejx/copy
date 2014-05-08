@@ -30,19 +30,18 @@ if (!is_dir("$gallery_dir/$galerie/thumbs")) {
     $galerie = "";
 }
 
-$galleries = array();
 //read interesting stuff from info.txt
 if ($galerie) {
-    $galleries[$galerie] = new Gallery($galerie);
+    $gallery = new Gallery($galerie);
     //check for restricted access
-    if ($galleries[$galerie]->login) {
-        access_check($galleries[$galerie]->login,$galleries[$galerie]->pw,$galerie);
+    if ($gallery->login) {
+        access_check($gallery->login, $gallery->pw, $galerie);
     }
 }
 
 // START RENDERING
 if ($snimek && $galerie)
-    page_header("Photo", $galleries[$galerie]->get_photo($snimek));
+    page_header("Photo", $gallery->get_photo($snimek));
 else
     page_header("Photos");
 
@@ -56,11 +55,9 @@ try {
         require_once("inc/index.inc.php");
         render_index();
     } elseif (!$snimek) {
-        $gallery = new Gallery($galerie);
         require_once("inc/gallery.inc.php");
         render_gallery($gallery);
     } else {
-        $gallery = new Gallery($galerie);
         $photo = $gallery->get_photo($snimek);
         require_once("inc/photo.inc.php");
         render_photo($gallery, $photo);
