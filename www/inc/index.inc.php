@@ -64,11 +64,7 @@ function render_index() {
             print "   <div class=\"month\"><h4>$monthname</h4>\n";
         }
         #galleries within month
-        if ($galleries[$foldername]->login) {
-            print "      <p class=\"restricted\"><a ";
-        } else {
-            print "      <p><a ";
-        }
+        print "      <p><a ";
         if (@$galleries[$foldername]->name) {
             print " href=\"{$galleries[$foldername]->url}\">";
             print $galleries[$foldername]->name;

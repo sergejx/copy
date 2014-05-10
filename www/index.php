@@ -12,7 +12,6 @@ define('APP_VERSION', "0.13pre");
 require_once ("lib/lib.l10n.php");
 require_once("inc/config.inc.php");
 require_once("inc/page.php");
-require_once("inc/funkce.inc.php");
 require_once("inc/gallery_info.php");
 
 #set the language translation
@@ -42,10 +41,6 @@ if (!is_dir("$gallery_dir/$gallery_id/thumbs")) {
 //read interesting stuff from info.yaml
 if ($gallery_id) {
     $gallery = new Gallery($gallery_id);
-    //check for restricted access
-    if ($gallery->login) {
-        access_check($gallery->login, $gallery->pw, $gallery_id);
-    }
 }
 
 // START RENDERING

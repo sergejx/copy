@@ -20,8 +20,6 @@ gal_auth=""
 gal_name=""
 gal_desc=""
 gal_date=""
-gal_user=""
-gal_pass=""
 
 # convert options
 convertor=`which convert`
@@ -39,7 +37,6 @@ hq,output:,rotate"
 
 
 function echo_help {
-cat <<EOF
 Usage : $1 [OPTIONS]... [FILE]...
 Convert FILEs
 
@@ -153,16 +150,10 @@ mkdir -p $dir/thumbs
 mkdir -p $dir/mq
 [ $hq -gt 0 ] && mkdir -p $dir/hq
 
-# Protect info.yaml, even if we don't make it.
-echo "<Files info.yaml>" > $dir/.htaccess
-echo "        deny from all" >> $dir/.htaccess
-echo "</Files>" >> $dir/.htaccess
-
 
 $verbose "Generating O.R.I.G.I.N.A.L gallery in $dir"
 
 #info.txt
-protect=n
 if [ $interactive == 1 ]; then
     echo -n "Gallery name [$gal_name]: "
     read gal_name
@@ -172,14 +163,6 @@ if [ $interactive == 1 ]; then
     read gal_auth
     echo -n "Date [$gal_date]: "
     read gal_date
-    echo -n "Resctrict access ? [y/N]: "
-    read protect
-    if [ "$protect" == "y" ] || [ "$protect" == "Y" ]; then
-	echo -n "restricted user [$gal_user]: "
-	read gal_user
-	echo -n "restricted password [$gal_pass]: "
-	read gal_pass
-    fi
 fi
 
 echo "---" >> $dir/info.yaml
@@ -187,8 +170,6 @@ echo "---" >> $dir/info.yaml
 [ "$gal_auth" != "" ] && echo "author: $gal_auth" >> $dir/info.yaml
 [ "$gal_date" != "" ] && echo "date: $gal_date" >> $dir/info.yaml
 [ "$gal_desc" != "" ] && echo "description: $gal_desc" >> $dir/info.yaml
-[ "$gal_user" != "" ] && echo "restricted_user: $gal_user" >> $dir/info.yaml
-[ "$gal_pass" != "" ] && echo "restricted_password: $gal_pass" >> $dir/info.yaml
 echo "---" >> $dir/info.yaml
 
 files=$(echo $@ | sed 's/ /\n/g' | sort)

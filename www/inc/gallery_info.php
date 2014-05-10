@@ -18,7 +18,6 @@ class Gallery {
     var $id;
     var $year, $month, $day;
     var $desc, $author, $name;
-    var $login, $pw;
     var $path;
     var $url;
     var $photos;
@@ -57,10 +56,6 @@ class Gallery {
                 $this->name = $info_array["name"];
             }
 
-            if (@$info_array["restricted_user"]) {
-                $this->login = $info_array["restricted_user"];
-                $this->pw = $info_array["restricted_password"];
-            }
             $num = 0;
             foreach ($photos as $img => $caption) {
                 $num++;
