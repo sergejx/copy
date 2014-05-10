@@ -2,17 +2,10 @@
 #############################
 #   Overall Gallery Index    #
 #############################
-function render_index() {
-    global $gallery_dir, $yearsince, $sortinmonth;
+function render_index($galleries) {
+    global $yearsince, $sortinmonth;
     # finish off navigation bar
     print "</div>\n\n<!-- listing galleries-->\n\n";
-
-    $adr = sorted_directory($gallery_dir);
-    foreach ($adr as $file) {
-        if (is_dir("$gallery_dir/$file") && !ereg("\.", $file)) {
-            $galleries[$file] = new Gallery($file);
-        }
-    }
 
     //sort within month depending on $sortinmonth
     if ($sortinmonth) { //alphabetically

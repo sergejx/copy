@@ -54,8 +54,9 @@ print "<div class=\"navigation\"><a href=\"$ThisScript\">" . $scnamegallery . "<
 // Main dispatch
 try {
     if (!$gallery_id) {
+        $galleries = list_galleries();
         require_once("inc/index.inc.php");
-        render_index();
+        render_index($galleries);
     } elseif (!$photo_id) {
         require_once("inc/gallery.inc.php");
         render_gallery($gallery);

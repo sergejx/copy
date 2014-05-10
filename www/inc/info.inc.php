@@ -1,16 +1,16 @@
 <?php
-function sorted_directory($directory) {
-    $items = array();
-    $handle=@opendir($directory);
+function list_galleries() {
+    global $gallery_dir;
+    $galleries = array();
+    $handle=@opendir($gallery_dir);
     if (!$handle) return;
     while ($file = readdir($handle)) {
-        if ($file != "." && $file != "..") {
-            $items[]=$file;
+        if ($file[0] != "." && is_dir("$gallery_dir/$file")) {
+            $galleries[$file] = new Gallery($file);
         }
     }
     closedir($handle);
-    sort($items, SORT_NATURAL);
-    return $items;
+    return $galleries;
 }
 
 
