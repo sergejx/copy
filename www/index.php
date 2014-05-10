@@ -9,10 +9,10 @@ define('APP_URL', "https://github.com/sergejx/copy");
 define('APP_VERSION', "0.13pre");
 
 #language support
-require_once ("lib/lib.l10n.php");
-require_once("inc/config.inc.php");
-require_once("inc/page.php");
-require_once("inc/gallery_info.php");
+require_once("inc/lib.l10n.php");
+require_once("config.php");
+require_once("inc/page.inc.php");
+require_once("inc/info.inc.php");
 
 #set the language translation
 l10n_set("l10n/".$sclang."/main.lang");
