@@ -20,8 +20,7 @@ l10n_set("l10n/".$sclang."/main.lang");
 l10n_set("l10n/".$sclang."/date.lang");
 l10n_set("l10n/".$GLOBALS['sclang']."/exif.lang");
 
-$ThisScript = str_replace('index.php', '',
-    'http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']);
+$ThisScript = str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
 
 # get variables passed in from the URL:
 $gallery_id = '';
