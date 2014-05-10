@@ -110,16 +110,6 @@ class Gallery {
         return array($gallery, $photos);
     }
 
-    private function read_photos() {
-        $path = "{$this->path}/thumbs";
-        $imgfiles = sorted_directory($path);
-        $this->photos = array();
-        foreach ($imgfiles as $i => $filename) {
-            $number = $i+1;
-            $this->photos[$number] = new Photo($this, $filename, $number);
-        }
-    }
-    
     function get_photo($number) {
         return $this->photos[$number];
     }
