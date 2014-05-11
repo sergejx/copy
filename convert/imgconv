@@ -37,6 +37,7 @@ hq,output:,rotate"
 
 
 function echo_help {
+cat <<EOF
 Usage : $1 [OPTIONS]... [FILE]...
 Convert FILEs
 
