@@ -1,21 +1,13 @@
 <?php
 function page_header($title, $photo=null) {
     global $ThisScript, $theme;
-
-    header("Content-Type: text/html; charset=utf-8");// make sure we send in utf8
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
 
 <meta name="robots" content="noindex, nofollow">
-
-<!-- This makes IE6 suck less (a bit) -->
-<!--[if lt IE 7]>
-<link rel="stylesheet" type="text/css" href="inc/styles/ie6workarounds.css">
-<script src="inc/styles/ie7/ie7-standard.js" type="text/javascript">
-</script>
-<![endif]-->
 
 <title><?php echo $title; ?></title>
 
@@ -23,7 +15,7 @@ function page_header($title, $photo=null) {
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <?php if ($photo) sequence_links($photo); ?>
 <link type="text/css" rel="stylesheet" href="<?php echo $theme; ?>" media="screen">
-     
+
 <script src="inc/global.js" type="text/javascript"></script>
 </head>
 <body>
