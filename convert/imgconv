@@ -215,6 +215,6 @@ if [ $rotate -gt 0 ]; then
     $verbose "rotating"
     jhead -autorot $dir/thumbs/*.jpg
     jhead -autorot $dir/mq/*.jpg
-    [ $hq ] && jhead -autorot $dir/hq/*.jpg
+    [ $hq -gt 0 ] && jhead -autorot $dir/hq/*.jpg
 fi
 
