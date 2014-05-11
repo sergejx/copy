@@ -1,3 +1,9 @@
+Maintainer
+----------
+Sergej Chodarev <sergejx AT centrum.sk>
+
+Authors of the ORIGINAL
+-----------------------
 Jakub Steiner <jimmac AT gmail.com> (original package, zenity-based frontend)
 Tuomas Kuosmanen <tigert AT tigert.com> (Nautilus script)
 Larry Ewing <lewing AT ximian.com> (gdk-pixbuf scaler)
