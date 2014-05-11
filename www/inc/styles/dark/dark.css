@@ -56,7 +56,6 @@ div.thumbroll {
 div.thumbroll img {
 	border: 1px solid #6b6c69;
 	-moz-border-radius: 3px; 
-	Filter: Gray; /* IE only */
 }
 
 div.thumbroll a.current img, div.thumbroll a.current:hover img {
@@ -149,7 +148,6 @@ p.bigthumbnails a {
 	/* Neat, but too slow
 	opacity: .5; 	
 	 */
-	Filter: Gray; /* IE - I wish we had that in gecko */
 }
 
 p.bigthumbnails a.portrait {
@@ -175,7 +173,6 @@ p.bigthumbnails a:hover {
    background-color: #2b2c29;
    margin: 3px;
    border: 2px solid #ffb02f;
-	 Filter: none; /* IE */
 }
 
 div.navigation {
