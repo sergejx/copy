@@ -190,12 +190,12 @@ for imagefile in $files; do
   $verbose -n "converting $imagefile "
 
   $verbose -n "."
-  $convertor -geometry 120x120 -modulate 100,140,100 -unsharp 1x20 \
-      -quality 60 $extra_opts "$imagefile" $dir/thumbs/$basename
+    $convertor -geometry 120x120 -unsharp 1x20 -quality 60 $extra_opts \
+        "$imagefile" $dir/thumbs/$basename
 
     $verbose -n "."
-    $convertor -geometry 1024x768 -modulate 100,130,100 -unsharp 1x5 \
-    -quality 80 "$imagefile" $dir/mq/$basename
+    $convertor -geometry 1024x1024 -unsharp 1x5 -quality 80 \
+        "$imagefile" $dir/mq/$basename
 
   if [ $hq -gt 0 ] ; then
       $verbose -n "."
