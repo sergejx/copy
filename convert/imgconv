@@ -194,7 +194,7 @@ for imagefile in $files; do
         "$imagefile" $dir/thumbs/$basename
 
     $verbose -n "."
-    $convertor -geometry 1024x1024 -unsharp 1x5 -quality 80 \
+    $convertor -geometry 1024x768 -unsharp 1x5 -quality 80 \
         "$imagefile" $dir/mq/$basename
 
   if [ $hq -gt 0 ] ; then
