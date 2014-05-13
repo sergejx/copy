@@ -1,0 +1,8 @@
+---
+name: Sample Gallery
+description: This is a short description
+author: Joe Doe
+date: 2005-01-18
+---
+photo1.jpg: Name | longer comment
+photo2.jpg: Name | longer comment
