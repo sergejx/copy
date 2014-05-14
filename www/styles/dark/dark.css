@@ -118,9 +118,6 @@ p.bigthumbnails a {
 	background-color: #232729;
   margin: 4px;
   border: 1px solid #6b6c69;
-	/* Neat, but too slow
-	opacity: .5; 	
-	 */
 }
 
 p.bigthumbnails a.portrait {
@@ -237,12 +234,6 @@ div.comment span {
    font-weight: bold;
 }
 
-div#log {
-	margin: 4px 0px 30px 0px;
-  font-size: 9pt;
-  color: #6b6c69;
-}
-
 div.navbuttons {
    display: none;
 }
@@ -277,12 +268,6 @@ div.nextthumb {
 	filter: alpha(opacity=70); /* IE */
 }
 
-div.nextthumb img, div.prevthumb img {
-	margin: 1px;
-	border: 1px solid #6b6c69;
-  border-radius: 3px; 
-}
-
 div.prevthumb a, div.nextthumb a {
     width: 27px;
     height: 40px;
@@ -307,15 +292,6 @@ div.nextthumb a:hover {
 	background: transparent url('next.png') bottom right no-repeat;
 }
 
-div.nextthumb a img,div.prevthumb a img {
-	Filter: Gray; /* IE - I wish we had that in gecko */
-}
-
-div.nextthumb a:hover img,div.prevthumb a:hover img {
-	border: 2px solid #ffb02f;
-	margin: 0px;
-	Filter: none;
-}
 
 .exif {
 	color: #555;
