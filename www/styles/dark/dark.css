@@ -55,7 +55,6 @@ div.thumbroll {
 
 div.thumbroll img {
 	border: 1px solid #6b6c69;
-	-moz-border-radius: 3px; 
 }
 
 div.thumbroll a.current img, div.thumbroll a.current:hover img {
@@ -119,7 +118,6 @@ p.bigthumbnails a {
 	background-color: #232729;
   margin: 4px;
   border: 1px solid #6b6c69;
-	-moz-border-radius: 3px;
 	/* Neat, but too slow
 	opacity: .5; 	
 	 */
@@ -156,7 +154,7 @@ div.navigation {
     width: 100%;
     padding:  5px;
     font-size: 12px;
-    -moz-border-radius: 3px; 
+    border-radius: 3px;
 }
 
 div.navigation a:first-child {
@@ -202,7 +200,6 @@ div.month p {
    list-style: none;
    font-size: 12px;
 	 border: 1px solid #444;
-	 -moz-border-radius: 5px;
 }
 
 div#image {
@@ -220,7 +217,6 @@ img#preview {
    border: 10px solid #232729; 
 	 background-color: #6b6c69;
 	 padding: 1px;
-   -moz-border-radius: 7px; 
    left: 0px;
    margin-left: auto;
    margin-right: auto;
@@ -261,7 +257,7 @@ div.prevthumb {
 	padding: 4px;
 	/* background-color: #2e3436; */
 	background-color: #232729;
-  -moz-border-radius: 5px; 
+  border-radius: 5px; 
 	opacity: .7; /* gecko, khtml */
 	filter: alpha(opacity=70); /* IE */
 }
@@ -276,7 +272,7 @@ div.nextthumb {
 	padding: 4px;
 	/* background-color: #2e3436; */
 	background-color: #232729;
-  -moz-border-radius: 5px; 
+  border-radius: 5px; 
 	opacity: .7; /* gecko, khtml */
 	filter: alpha(opacity=70); /* IE */
 }
@@ -284,7 +280,7 @@ div.nextthumb {
 div.nextthumb img, div.prevthumb img {
 	margin: 1px;
 	border: 1px solid #6b6c69;
-  -moz-border-radius: 3px; 
+  border-radius: 3px; 
 }
 
 div.prevthumb a, div.nextthumb a {
@@ -362,7 +358,7 @@ div#mqhq a {
    width: 48px;
    text-align: center;
    margin: 2px;
-   -moz-border-radius: 3px; 
+   border-radius: 3px;
 }
 
 div#mqhq a:hover {
