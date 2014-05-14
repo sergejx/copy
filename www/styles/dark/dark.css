@@ -68,31 +68,6 @@ div.thumbroll a:hover img {
 	Filter: none;
 }
 
-a#minus,a#plus {
-   display: block;
-	 position: relative;
-   float: left;
-	 width:16px; 
-   height:16px;
-	 margin:0px; padding:0px;
-}
-
-a#minus {
-   background: url("minus-inactive.png") top left no-repeat;
-}
-
-a#minus:hover {
-   background: url("minus.png") top left no-repeat;
-}
-
-a#plus {
-   background: url("plus-inactive.png") top left no-repeat;
-}
-
-a#plus:hover {
-   background: url("plus.png") top left no-repeat;
-}
-
 .month p {
 	display: block;
 	width: 200px;
@@ -228,16 +203,6 @@ div.month p {
    font-size: 12px;
 	 border: 1px solid #444;
 	 -moz-border-radius: 5px;
-}
-
-div.month p.restricted>a {
-	background: transparent url("restricted-inactive.png") top left no-repeat;
-  padding: 0px 0px 3px 14px;
-}
-
-
-div.month p.restricted>a:hover {
-	background: transparent url("restricted.png") top left no-repeat;
 }
 
 div#image {
