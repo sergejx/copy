@@ -38,4 +38,4 @@ $exif_show = array("DateTime"=>__("Time Taken"),
 $gallery_dir="galleries";
 
 #css styles
-$theme = "inc/styles/dark/dark.css";
+$theme = "styles/dark/dark.css";
