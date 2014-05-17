@@ -16,7 +16,6 @@ function page_header($title, $photo=null) {
 <?php if ($photo) sequence_links($photo); ?>
 <link type="text/css" rel="stylesheet" href="<?php echo $theme; ?>" media="screen">
 
-<script src="lib/jquery.js" type="text/javascript"></script>
 <script src="inc/global.js" type="text/javascript"></script>
 </head>
 <body>
