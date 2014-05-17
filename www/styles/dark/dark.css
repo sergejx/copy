@@ -209,6 +209,7 @@ div#image {
 div#preview {
    margin-left: 40px;
    margin-right: 40px;
+   text-align: center;
 }
 
 div#preview img {
@@ -216,7 +217,7 @@ div#preview img {
 	 background-color: #6b6c69;
 	 padding: 1px;
    height: auto;
-   max-width: 100%;
+   max-width: 97%;
 }
 
 div.comment {
