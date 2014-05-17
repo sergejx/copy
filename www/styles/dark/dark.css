@@ -206,20 +206,17 @@ div#image {
    clear: both;
 }
 
-img#preview {
-	 position: absolute;
-   top: 0px;
-   right: 0px;
-   bottom: 0px;
+div#preview {
+   margin-left: 40px;
+   margin-right: 40px;
+}
+
+div#preview img {
    border: 10px solid #232729; 
 	 background-color: #6b6c69;
 	 padding: 1px;
-   left: 0px;
-   margin-left: auto;
-   margin-right: auto;
-   max-width: 90%;
    height: auto;
-   width: auto\9; /* ie8 */
+   max-width: 100%;
 }
 
 div.comment {
@@ -242,7 +239,7 @@ div.prevthumb {
 	position: absolute;
   margin-bottom: 1em;
   font-size: 10px;
-  top: top;
+    top: 0px;
   left: 0px;
   text-align: right;
 	padding: 4px;
@@ -258,7 +255,7 @@ div.nextthumb {
   margin-bottom: 1em;
 	font-size: 10px;
   right: 0px;
-  top: top;
+    top: 0px;
 	margin-left: auto;
 	padding: 4px;
 	/* background-color: #2e3436; */

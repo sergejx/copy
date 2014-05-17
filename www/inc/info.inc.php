@@ -176,14 +176,9 @@ class Photo {
 	}
 
 	function renderPreview() {
-
-   $divheight = $this->previewsize[1] + 10;
-   print "<div id=\"image\" style=\"height: ${divheight}px\">\n"; // extra kludge 
-                                                                 // because of tall 
-                                                                 // images
-
-        print "<img id=\"preview\" " . $this->previewsize[3] . " src=\"". $this->preview;
-	 print "\" alt=\"$this->caption\" />\n";
+        print "<div id=\"image\">\n";
+        print "<div id=\"preview\"><img " . $this->previewsize[3] . " src=\"". $this->preview;
+        print "\" alt=\"$this->caption\"></div>\n";
 	}
 
 	function renderCaption() {
