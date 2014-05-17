@@ -161,37 +161,6 @@ class Photo {
             $this->caption = $caption[1];
     }
 
-	function renderBigSize() {
-
-   if ($this->mq || $this->hq) {
-		 print "<div id=\"mqhq\">";
-		 if ($this->mq) {
-				print "<a href=\"" . $this->mq . "\">". __('MQ') . "</a> ";
-		 }
-		 if ($this->hq) {
-				print "<a href=\"" . $this->hq . "\">" . __('HQ') . "</a>";
-		 }
-		 print "</div>\n";
-	 }
-	}
-
-	function renderPreview() {
-        print "<div id=\"image\">\n";
-        print "<div id=\"preview\"><img " . $this->previewsize[3] . " src=\"". $this->preview;
-        print "\" alt=\"$this->caption\"></div>\n";
-	}
-
-	function renderCaption() {
-	
-		print "<div class=\"comment\">";
-		print "<span>" . $this->name . "</span>";
-		if ($this->caption) {
-			print " &ndash; ";
-			print $this->caption;
-			print "</div>";
-		}
-	}
-
     function has_prev() {
         return $this->number > 1;
     }

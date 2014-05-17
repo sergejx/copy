@@ -17,19 +17,20 @@ function render_photo($gallery, $picture) {
     thumb_roll($gallery, $picture->number);
 
     /* main image + navigation (prev/next) */
-    $picture->renderPreview();
+    render_preview($picture);
     page_navigation($picture, "prev");
     page_navigation($picture, "next");
     print "</div>\n"; //end image div
 
     if (function_exists('exif_read_data')) require("exif.inc.php");
 
-    $picture->renderCaption();
+    render_caption($picture);
 
-    $picture->renderBigSize();
+    render_big_size($picture);
 
     page_navigation($picture, null);
 }
+
 
 function page_navigation($photo, $image) {
     if (!$image) { // this will render a navigation bar - max 3 buttons
@@ -97,4 +98,36 @@ function thumb_roll($gallery, $snimek) {
             print "</a> \n";
     }
     print "</div>\n";
+}
+
+
+function render_big_size($photo) {
+    if ($photo->mq || $photo->hq) {
+        print "<div id=\"mqhq\">";
+        if ($photo->mq) {
+            print "<a href=\"" . $photo->mq . "\">". __('MQ') . "</a> ";
+        }
+        if ($photo->hq) {
+            print "<a href=\"" . $photo->hq . "\">" . __('HQ') . "</a>";
+        }
+        print "</div>\n";
+    }
+}
+
+
+function render_preview($photo) {
+    print "<div id=\"image\">\n";
+    print "<div id=\"preview\"><img " . $photo->previewsize[3] . " src=\"". $photo->preview;
+    print "\" alt=\"$photo->caption\"></div>\n";
+}
+
+
+function render_caption($photo) {
+    print "<div class=\"comment\">";
+    print "<span>" . $photo->name . "</span>";
+    if ($photo->caption) {
+        print " &ndash; ";
+        print $photo->caption;
+        print "</div>";
+    }
 }
