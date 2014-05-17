@@ -235,58 +235,40 @@ div.navbuttons {
    display: none;
 }
 
-div.prevthumb {
-	position: absolute;
-  margin-bottom: 1em;
-  font-size: 10px;
+div.prevthumb, div.nextthumb {
+    position: absolute;
     top: 0px;
+    height: 100%;
+}
+
+div.prevthumb {
   left: 0px;
-  text-align: right;
-	padding: 4px;
-	/* background-color: #2e3436; */
-	background-color: #232729;
-  border-radius: 5px; 
-	opacity: .7; /* gecko, khtml */
-	filter: alpha(opacity=70); /* IE */
 }
 
 div.nextthumb {
-	position: absolute;
-  margin-bottom: 1em;
-	font-size: 10px;
   right: 0px;
-    top: 0px;
-	margin-left: auto;
-	padding: 4px;
-	/* background-color: #2e3436; */
-	background-color: #232729;
-  border-radius: 5px; 
-	opacity: .7; /* gecko, khtml */
-	filter: alpha(opacity=70); /* IE */
 }
 
 div.prevthumb a, div.nextthumb a {
-    width: 27px;
-    height: 40px;
+    width: 34px;
+    height: 100%;
+    display: block;
 }
 
 div.prevthumb a {
-	display: block;
-	background: transparent url('prev-inactive.png') bottom left no-repeat;
+    background: transparent url('prev-inactive.png') center left no-repeat;
 }
 
 div.nextthumb a {
-	display: block;
-  text-decoration: none;
-	background: transparent url('next-inactive.png') bottom right no-repeat;
+    background: transparent url('next-inactive.png') center right no-repeat;
 }
 
 div.prevthumb a:hover {
-	background: transparent url('prev.png') bottom left no-repeat;
+    background: transparent url('prev.png') center left no-repeat;
 }
 
 div.nextthumb a:hover {
-	background: transparent url('next.png') bottom right no-repeat;
+    background: transparent url('next.png') center right no-repeat;
 }
 
 
