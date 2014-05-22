@@ -6,7 +6,7 @@
 define('APP_NAME', "COPY"); // Customized Original^1, Potentially Yummy
 // ^1: Original: Opensource Remote Image Gallery, Initialy Not As Lovely
 define('APP_URL', "https://github.com/sergejx/copy");
-define('APP_VERSION', "0.13pre");
+define('APP_VERSION', "0.90pre");
 
 #language support
 require_once("inc/lib.l10n.php");

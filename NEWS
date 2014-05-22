@@ -1,3 +1,23 @@
+COPY 0.90
+---------
+
+- Forked from ORIGINAL
+- Refactored code of PHP application
+- Removed support for comments, counter
+- Removed support for storing data in SQLite database
+- Remove support for downloadable ZIP archives with photos
+- Display larger images (MQ) by default
+- Remove next/prev thumbnails and use thumbroll with 3 previous/next photos instead
+- Remove old styles and update dark style
+- Add hints for browser to prefetch next image
+- New format for gallery metadata and photo captions
+  - Instead of a directory with separate comment file per photo, all comments
+    are listed in a single file.
+  - Ordering of photos is not based on number in file names but on their
+    ordering in info file. This allows easier modification of order and
+    addition/removal, because file name don't need to be changed.
+
+
 Version 0.11.3
 --------------
 

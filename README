@@ -1,7 +1,19 @@
-This package includes two separate applications. In the www dir, there is the
-PHP frontend app, the convert dir includes a simple (too simple i guess) script
-that converts your wildcard of images into three subdirs in the current
-directory. You can easily create and upload all images using:
+COPY - A Simple Photo Gallery
+=============================
+
+COPY allows you to create simple web photo galleries organized by date and event.
+
+This package includes two separate applications.
+
+In the 'www' dir, there is the PHP frontend app, that serves galleries stored
+in the 'gallery' subdir. Gallery name and date are taken from the info.yaml
+file or from the dir name and mtime.
+
+The 'convert' dir includes a simple script that converts your wildcard of images
+into subdirs with scaled-down images and thumbnails in the current directory and
+prepares the list of images in the info.yaml.
+
+You can easily create and upload all images using:
 
    mkdir temp
    cd $_
@@ -10,46 +22,39 @@ directory. You can easily create and upload all images using:
 
 and that's it.
 
-Tuomas Kuosmannen (tigert@tigert.com) has created a Nautilus script to create
-"original" galleries (check the REQUIREMENTS file). Just copy the
-convert/contrib/webgallery.pl file to ~/.gnome2/nautilus-scripts and make sure it's got
-the execute bit set.
-
-# UPDATE
-
-   Apart from using netpbm package (http://sourceforge.net/projects/netpbm/) for
-   scaling images, the new webgallery-zenity.pl script uses Larry Ewing's
-   gdk-pixbuf-based scaler. See REQUIREMENTS for details.
-
-   Latest versions of the tools can be found at
-   http://jimmac.musichall.cz/original.php3
-
-Various Notes
-=============
-
-Gallery Dates
--------------
-By default, original uses the directory timestamp to figure out the date of the
-gallery. If I need to tweak it, i use `touch -d`. However some folks requested
-a more convenient (is it?) way, using a "$gallery/date.txt" file. This
-functionality has been replaced by the mew meta info file - info.txt:
-
-  Info.txt format
-	---------------
-
-	The file is a simple text of "key|value" pairs on separate lines. The '|'
-	separator is used, since you may want to use '=' and ':' as you're free to
-	use html markup in the file. Make sure you use a utf8 capable editor.
-
-	Some useful keys:
-	-----------------
-
-	date - can be used to override the timestamp of the directory
-	name - you can override the dir name if you prefer not using utf8 filenames
-	description - _short_ dexcription. Will be show in the index page.
-	author - Useful if the photographer isn't you.
+Latest versions of the tools can be found at
+https://github.com/sergejx/copy
 
 
+Gallery Info File Format
+------------------------
 
---
-Jakub 'Jimmac' Steiner <jimmac AT gmail.com>
+The file format is based on YAML. It contains two documents:
+- gallery metadata
+- list of images with captions
+
+Metadata are simple "key: value" pairs on separate lines. The keys include
+
+- date - can be used to override the timestamp of the directory.
+- name - you can override the dir name if you prefer not using utf8 filenames.
+- description - _short_ description. Will be show in the index page.
+- author - Useful if the photographer isn't you.
+
+List of images have similar notation as metadata with image filenames as keys
+and captions as values. Caption can contain longer comment after the "|" symbol.
+Only the photos listed there are included in web gallery. The list also
+determines their order.
+
+If you are migrating from the ORIGINAL, you need to use script new_info.py to
+convert old info.txt files into the new format.
+
+
+Name & History
+--------------
+
+COPY: Customized ORIGINAL, Potentially Yummy
+ORIGINAL: Opensource Remote Image Gallery, Initialy Not As Lovely
+
+COPY is a fork of the ORIGINAL photo gallery by Jakub 'Jimmac' Steiner.
+ORIGINAL source codes can be found at https://github.com/jimmac/original
+
