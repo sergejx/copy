@@ -72,15 +72,16 @@ function thumb_roll($gallery, $snimek) {
     print "\n<!--mini thumbnail roll-->\n<div class=\"thumbroll\">";
     $start = $snimek - 3;
     $stop = $snimek + 3;
-    $total = count($gallery->photos);
+    $total = $gallery->get_photos_count();
     if ($snimek < 4)
         $stop = 7;
     if ($snimek > ($total - 4)) {
         $start = $total - 6;
     }
-    foreach ($gallery->photos as $num => $photo) {
+    for ($num = 1; $num <= $gallery->get_photos_count(); $num++) {
             if ($num < $start || $num > $stop)
                 continue;
+        $photo = $gallery->get_photo($num);
             $thumb = $photo->thumbnail;
             print " <a href=\"{$photo->url}\" title=\"{$photo->name}\"";
             if ($num == $snimek)
@@ -117,7 +118,7 @@ function render_big_size($photo) {
 
 function render_preview($photo) {
     print "<div id=\"image\">\n";
-    print "<div id=\"preview\"><img " . $photo->previewsize[3] . " src=\"". $photo->preview;
+    print "<div id=\"preview\"><img " . $photo->get_preview_size()[3] . " src=\"". $photo->preview;
     print "\" alt=\"$photo->caption\"></div>\n";
 }
 

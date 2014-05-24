@@ -15,7 +15,8 @@ function render_gallery($gallery) {
 
     //thumbnails
     print "<p class=\"bigthumbnails\">\n";
-    foreach($gallery->photos as $num => $photo) {
+    for ($num = 1; $num <= $gallery->get_photos_count(); $num++) {
+        $photo = $gallery->get_photo($num);
         $thumb = $photo->thumbnail;
         $imgsize = getimagesize($thumb);
         //check for portraits

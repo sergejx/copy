@@ -20,7 +20,8 @@ class Gallery {
     var $desc, $author, $name;
     var $path;
     var $url;
-    var $photos;
+    private $photos_info;   // Info about photos (filename, caption)
+    private $photos;        // Photo objects (loaded lazily)
 
     function __construct($id) {
         global $ThisScript, $gallery_dir;
@@ -34,7 +35,7 @@ class Gallery {
             throw new DomainException(__("No such gallery"));
         //read from info.txt
         try {
-            list($info_array, $photos) = $this->parse_info_file($infofile);
+            list($info_array, $photos_info) = $this->parse_info_file($infofile);
             if (isset($info_array["date"])) {
                 $tstamp = strtotime($info_array["date"]);
             } else {
@@ -56,10 +57,11 @@ class Gallery {
                 $this->name = $info_array["name"];
             }
 
+            // Store info about photos
             $num = 0;
-            foreach ($photos as $img => $caption) {
+            foreach ($photos_info as $img => $caption) {
                 $num++;
-                $this->photos[$num] = new Photo($this, $num, $img, $caption);
+                $this->photos_info[$num] = array($img, $caption);
             }
         } catch (InfoFormatException $e) {
             throw new DomainException("Corrupted gallery", 0, $e);
@@ -111,7 +113,15 @@ class Gallery {
     }
 
     function get_photo($number) {
+        if (!isset($this->photos[$number])) { // Lazy loading
+            list($img, $caption) = $this->photos_info[$number];
+            $this->photos[$number] = new Photo($this, $number, $img, $caption);
+        }
         return $this->photos[$number];
+    }
+    
+    function get_photos_count() {
+        return count($this->photos_info);
     }
 }
 
@@ -125,7 +135,6 @@ function cmp_galleries_by_day($g1, $g2) {
 class Photo {
 	var $id;
 	var $preview;
-	var $previewsize;
 	var $mq;
 	var $hq;
     var $thumbnail;
@@ -146,7 +155,7 @@ class Photo {
         if (!file_exists($this->preview))
             throw new DomainException(__('No such image'));
         $this->thumbnail = "{$gallery->path}/thumbs/" . $this->file;
-        $this->previewsize = getimagesize($this->preview);
+
         //MQ
         if (file_exists("{$gallery->path}/mq/" . $this->file)) {
             $this->mq = "{$gallery->path}/mq/" . $this->file;
@@ -166,7 +175,7 @@ class Photo {
     }
 
     function has_next() {
-        return $this->number < count($this->gallery->photos);
+        return $this->number < $this->gallery->get_photos_count();
     }
 
     function get_prev() {
@@ -175,6 +184,10 @@ class Photo {
 
     function get_next() {
         return $this->gallery->get_photo($this->number + 1);
+    }
+    
+    function get_preview_size() {
+        return getimagesize($this->preview);
     }
 }
 
