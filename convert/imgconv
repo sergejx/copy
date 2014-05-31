@@ -213,8 +213,8 @@ done
 # auto-rotate stuff
 if [ $rotate -gt 0 ]; then
     $verbose "rotating"
-    jhead -autorot $dir/thumbs/*.jpg
-    jhead -autorot $dir/mq/*.jpg
-    [ $hq -gt 0 ] && jhead -autorot $dir/hq/*.jpg
+    jhead -autorot $dir/thumbs/*
+    jhead -autorot $dir/mq/*
+    [ $hq -gt 0 ] && jhead -autorot $dir/hq/*
 fi
 
