@@ -15,7 +15,10 @@ function page_header($title, $photo=null) {
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <?php if ($photo) sequence_links($photo); ?>
 <link type="text/css" rel="stylesheet" href="<?php echo $theme; ?>" media="screen">
+<link rel="stylesheet" href="lib/justifiedGallery.min.css">
 
+<script src="lib/jquery.min.js"></script>
+<script src="lib/jquery.justifiedGallery.min.js"></script>
 <script src="inc/global.js" type="text/javascript"></script>
 </head>
 <body>

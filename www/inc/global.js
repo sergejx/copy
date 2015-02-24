@@ -24,3 +24,10 @@ window.onkeyup = function(event) {
         break;
     }
 };
+
+$(document).ready(function() {
+    $(".bigthumbnails").justifiedGallery({
+        margins: 10,
+        captions: false
+    });
+});

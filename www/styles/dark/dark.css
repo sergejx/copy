@@ -104,45 +104,12 @@ p {
 	clear: both;
 }
 
-p.bigthumbnails {
-   text-align: left;
-}
-
 p.bigthumbnails a {
-	display: block;
-	float: left;
-	width: 130px;
-	height: 80px;
-	text-align: center;
-  padding: 30px 4px;
-	background-color: #232729;
-  margin: 4px;
-  border: 1px solid #6b6c69;
-}
-
-p.bigthumbnails a.portrait {
-	padding: 10px 29px;
-	width: 80px;
-	height: 120px; /* why the extra pixels? */
-}
-
-p.bigthumbnails img {
-	/* landscapes */
-	 display: inline;
-	 width: 120px;
-	 height: 80px;
-}
-
-a.portrait img {
-	 /* portrait */
-	 width: 80px;
-	 height: 120px;
+    border: 2px solid #232729;
 }
 
 p.bigthumbnails a:hover {
-   background-color: #2b2c29;
-   margin: 3px;
-   border: 2px solid #ffb02f;
+    border: 2px solid #ffb02f;
 }
 
 div.navigation {

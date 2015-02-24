@@ -19,30 +19,12 @@ function render_gallery($gallery) {
         $photo = $gallery->get_photo($num);
         $thumb = $photo->thumbnail;
         $imgsize = getimagesize($thumb);
-        //check for portraits
-        $portrait = "false";
-        $class = "";
-        if($imgsize[0]<100) {
-            //portraits need a special class for styling
-            $class = "portrait";
-        }
 
         print "   <a href=\"{$photo->url}\"";
         print " title=\"{$photo->name}\"";
-        if ($class) print " class=\"$class\"";
         print ">";
         print "<img ";
-        // scale portraits to 80 height
-        if ($portrait) {
-            //portrait
-            print "width=\"";
-            $scaled = round($imgsize[0] / 1.5);
-            print $scaled;
-            print "\" height=\"${imgsize[0]}\"";
-        } else {
-            //landscape
             print $imgsize[3];
-        }
         print " src=\"$thumb\" ";
         print "alt=\"photo No. $num\" />";
         print "</a>\n";
