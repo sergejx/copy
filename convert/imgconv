@@ -190,7 +190,7 @@ for imagefile in $files; do
   $verbose -n "converting $imagefile "
 
   $verbose -n "."
-    $convertor -geometry 240x240 -unsharp 1x20 -quality 70 $extra_opts \
+    $convertor -geometry 320x180 -unsharp 1x20 -quality 80 $extra_opts \
         "$imagefile" $dir/thumbs/$basename
 
     $verbose -n "."
