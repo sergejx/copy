@@ -1,0 +1,9 @@
+#!/bin/sh
+
+for gallery in $1/*; do
+    for imagefile in $gallery/mq/*; do
+        thumbfile=$gallery/thumbs/$(basename $imagefile)
+        echo "Resizing $imagefile"
+        convert -geometry 320x180 -unsharp 1x10 -quality 90 $imagefile $thumbfile
+    done
+done
